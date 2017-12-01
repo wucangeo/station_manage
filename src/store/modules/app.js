@@ -1,18 +1,15 @@
-import {otherRouter, appRouter} from '@/router/router';
+import { otherRouter, appRouter } from '@/router/router'
 
 const app = {
-    state: {
-        menuList: [],
-        routers: [
-            otherRouter,
-            ...appRouter
-        ]
-    },
-    mutations: {
-        updateMenulist (state) {
-            state.menuList = appRouter;
-        }
+  state: {
+    menuList: [],
+    routers: [otherRouter, ...appRouter]
+  },
+  mutations: {
+    updateMenulist(state) {
+      state.menuList = appRouter
     }
-};
+  }
+}
 
-export default app;
+export default app

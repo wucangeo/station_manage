@@ -1,5 +1,5 @@
 <style lang="less">
-    @import "./main.less";
+@import "./main.less";
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
@@ -46,39 +46,39 @@
     </div>
 </template>
 <script>
-import Cookies from 'js-cookie';
-import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue';
+import Cookies from "js-cookie";
+import shrinkableMenu from "./main-components/shrinkable-menu/shrinkable-menu.vue";
 
 export default {
-    components: {
-        shrinkableMenu
-    },
-    data () {
-        return {
-            shrink: false,
-            userName: ''
-        };
-    },
-    computed: {
-        menuList () {
-            return this.$store.state.app.menuList;
-        }
-    },
-    methods: {
-        init () {
-            this.userName = Cookies.get('user');
-        },
-        toggleClick () {
-            this.shrink = !this.shrink;
-        },
-        handleClickUserDropdown (name) {
-            this.$router.push({
-                name: 'login'
-            });
-        }
-    },
-    mounted () {
-        this.init();
+  components: {
+    shrinkableMenu
+  },
+  data() {
+    return {
+      shrink: false,
+      userName: ""
+    };
+  },
+  computed: {
+    menuList() {
+      return this.$store.state.app.menuList;
     }
+  },
+  methods: {
+    init() {
+      this.userName = Cookies.get("user");
+    },
+    toggleClick() {
+      this.shrink = !this.shrink;
+    },
+    handleClickUserDropdown(name) {
+      this.$router.push({
+        name: "login"
+      });
+    }
+  },
+  mounted() {
+    this.init();
+  }
 };
 </script>

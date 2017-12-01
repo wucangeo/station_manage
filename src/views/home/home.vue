@@ -1,5 +1,5 @@
 <style lang="less">
-    @import "./home.less";
+@import "./home.less";
 </style>
 <template>
     <div class="home-main">
@@ -9,11 +9,11 @@
 
 <script>
 export default {
-    name: 'home',
-    data () {
-        return {
-            //
-        };
-    }
+  name: "home",
+  data() {
+    return {
+      //
+    };
+  }
 };
 </script>

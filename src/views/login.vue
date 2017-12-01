@@ -1,5 +1,5 @@
 <style lang="less">
-    @import './login.less';
+@import "./login.less";
 </style>
 
 <template>
@@ -37,36 +37,32 @@
 </template>
 
 <script>
-import Cookies from 'js-cookie';
+import Cookies from "js-cookie";
 export default {
-    data () {
-        return {
-            form: {
-                userName: '',
-                password: ''
-            },
-            rules: {
-                userName: [
-                    { required: true, message: '账号不能为空', trigger: 'blur' }
-                ],
-                password: [
-                    { required: true, message: '密码不能为空', trigger: 'blur' }
-                ]
-            }
-        };
-    },
-    methods: {
-        handleSubmit () {
-            this.$refs.loginForm.validate((valid) => {
-                if (valid) {
-                    Cookies.set('user', this.form.userName);
-                    this.$router.push({
-                        name: 'home_index'
-                    });
-                }
-            });
+  data() {
+    return {
+      form: {
+        userName: "",
+        password: ""
+      },
+      rules: {
+        userName: [{ required: true, message: "账号不能为空", trigger: "blur" }],
+        password: [{ required: true, message: "密码不能为空", trigger: "blur" }]
+      }
+    };
+  },
+  methods: {
+    handleSubmit() {
+      this.$refs.loginForm.validate(valid => {
+        if (valid) {
+          Cookies.set("user", this.form.userName);
+          this.$router.push({
+            name: "home_index"
+          });
         }
+      });
     }
+  }
 };
 </script>
 
