@@ -68,17 +68,28 @@ export const appRouter = [
     path: '/group',
     icon: 'ios-folder',
     name: 'group',
-    title: 'Group',
+    title: '组',
     component: Main,
     children: [
       {
         path: 'page1',
         icon: 'ios-paper-outline',
         name: 'page1',
-        title: 'Page1',
+        title: '第一页',
         component: resolve => {
           require(['@/views/group/page1/page1.vue'], resolve)
-        }
+        },
+        children: [
+          {
+            path: 'page11',
+            icon: 'ios-paper-outline',
+            name: 'page11',
+            title: '第11页',
+            component: resolve => {
+              require(['@/views/group/page1/page1.vue'], resolve)
+            }
+          }
+        ]
       },
       {
         path: 'page2',

@@ -1,14 +1,12 @@
 <style lang="less">
-@import "./main.less";
+@import './main.less';
 </style>
 <template>
     <div class="main" :class="{'main-hide-text': shrink}">
         <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
-            <shrinkable-menu 
-                :shrink="shrink"
-                :menu-list="menuList">
+            <shrinkable-menu :shrink="shrink" :menu-list="menuList">
                 <div slot="top" class="logo-con">
-                    <img v-show="!shrink"  src="../images/logo.jpg" key="max-logo" />
+                    <img v-show="!shrink" src="../images/logo.jpg" key="max-logo" />
                     <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
                 </div>
             </shrinkable-menu>
@@ -46,8 +44,8 @@
     </div>
 </template>
 <script>
-import Cookies from "js-cookie";
-import shrinkableMenu from "./main-components/shrinkable-menu/shrinkable-menu.vue";
+import Cookies from 'js-cookie'
+import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue'
 
 export default {
   components: {
@@ -56,29 +54,29 @@ export default {
   data() {
     return {
       shrink: false,
-      userName: ""
-    };
+      userName: ''
+    }
   },
   computed: {
     menuList() {
-      return this.$store.state.app.menuList;
+      return this.$store.state.app.menuList
     }
   },
   methods: {
     init() {
-      this.userName = Cookies.get("user");
+      this.userName = Cookies.get('user')
     },
     toggleClick() {
-      this.shrink = !this.shrink;
+      this.shrink = !this.shrink
     },
     handleClickUserDropdown(name) {
       this.$router.push({
-        name: "login"
-      });
+        name: 'login'
+      })
     }
   },
   mounted() {
-    this.init();
+    this.init()
   }
-};
+}
 </script>
