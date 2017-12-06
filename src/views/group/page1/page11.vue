@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>page1</h1>
-    <router-link to="/group/page2">bbbb</router-link>
+    <h1>1111</h1>
+    <router-link to="/group/page1">page1</router-link>
   </div>
 </template>
 

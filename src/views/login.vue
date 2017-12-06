@@ -3,38 +3,38 @@
 </style>
 
 <template>
-    <div class="login" @keydown.enter="handleSubmit">
-        <div class="login-con">
-            <Card :bordered="false">
-                <p slot="title">
-                    <Icon type="log-in"></Icon>
-                    欢迎登录
-                </p>
-                <div class="form-con">
-                    <Form ref="loginForm" :model="form" :rules="rules">
-                        <FormItem prop="username">
-                            <Input v-model="form.username" placeholder="请输入用户名">
-                            <span slot="prepend">
-                                <Icon :size="16" type="person"></Icon>
-                            </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem prop="password">
-                            <Input type="password" v-model="form.password" placeholder="请输入密码">
-                            <span slot="prepend">
-                                <Icon :size="14" type="locked"></Icon>
-                            </span>
-                            </Input>
-                        </FormItem>
-                        <FormItem>
-                            <Button @click="handleSubmit" type="primary" long>登录</Button>
-                            <label class="login-tip">{{login_msg}}</label>
-                        </FormItem>
-                    </Form>
-                </div>
-            </Card>
+  <div class="login" @keydown.enter="handleSubmit">
+    <div class="login-con">
+      <Card :bordered="false">
+        <p slot="title">
+          <Icon type="log-in"></Icon>
+          欢迎登录
+        </p>
+        <div class="form-con">
+          <Form ref="loginForm" :model="form" :rules="rules">
+            <FormItem prop="username">
+              <Input v-model="form.username" placeholder="请输入用户名">
+              <span slot="prepend">
+                <Icon :size="16" type="person"></Icon>
+              </span>
+              </Input>
+            </FormItem>
+            <FormItem prop="password">
+              <Input type="password" v-model="form.password" placeholder="请输入密码">
+              <span slot="prepend">
+                <Icon :size="14" type="locked"></Icon>
+              </span>
+              </Input>
+            </FormItem>
+            <FormItem>
+              <Button @click="handleSubmit" type="primary" long>登录</Button>
+              <label class="login-tip">{{login_msg}}</label>
+            </FormItem>
+          </Form>
         </div>
+      </Card>
     </div>
+  </div>
 </template>
 
 <script>
@@ -65,11 +65,10 @@ export default {
     handleSubmit() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          Cookies.set('user', this.form.username)
           this.apis.user.login(this.form).then(res => {
-            debugger
             let result = res.data
             if (result.code === 1) {
+              Cookies.set('user', result.data.name)
               let access_token = result.data.access_token
               Cookies.set('access_token', access_token)
               this.$router.push({

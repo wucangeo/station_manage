@@ -86,7 +86,7 @@ export const appRouter = [
             name: 'page11',
             title: '第11页',
             component: resolve => {
-              require(['@/views/group/page1/page1.vue'], resolve)
+              require(['@/views/group/page1/page11.vue'], resolve)
             }
           }
         ]
@@ -103,18 +103,19 @@ export const appRouter = [
     ]
   },
   {
-    path: '/page',
+    path: '/user',
     icon: 'ios-paper',
-    title: 'Page',
-    name: 'page',
+    title: '用户管理',
+    name: 'user',
     component: Main,
     children: [
       {
         path: 'index',
-        title: 'Page',
-        name: 'page_index',
+        // icon: 'ios-paper-outline',
+        title: '用户列表',
+        name: 'userindex',
         component: resolve => {
-          require(['@/views/page/page.vue'], resolve)
+          require(['@/views/user/user.vue'], resolve)
         }
       }
     ]
