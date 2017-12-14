@@ -6,9 +6,24 @@
 
 <script>
 export default {
-  mounted() {},
+  mounted() {
+    this.verify()
+  },
   beforeDestroy() {},
-  methods: {}
+  methods: {
+    verify() {
+      this.apis.user
+        .verify()
+        .then(res => {
+          if (res.status === 401) {
+            this.$router.push({ name: 'login' })
+          }
+        })
+        .catch(err => {
+          this.$router.push({ name: 'login' })
+        })
+    }
+  }
 }
 </script>
 
