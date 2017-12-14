@@ -5,14 +5,16 @@ import store from './store'
 import App from './app.vue'
 import 'iview/dist/styles/iview.css'
 import apis from './api/index'
+import * as filters from './libs/filter'
 
 // debugger
 Vue.use(iView)
-// let apis = {}
-// Object.keys(api.default).forEach(key => {
-//   apis[key] = api.default[key]
-// })
 Vue.prototype.apis = apis
+
+//载入Filter
+Object.keys(filters.default).forEach(key => {
+  Vue.filter(key, filters.default[key])
+})
 
 new Vue({
   el: '#app',
