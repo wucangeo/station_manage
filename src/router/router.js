@@ -1,4 +1,7 @@
-import Main from '@/views/Main.vue'
+import MainView from '@/views/Main.vue'
+import userIndexView from '@/views/user/user-index.vue'
+import userListView from '@/views/user/user-list.vue'
+import userInfoView from '@/views/user/user-info.vue'
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
@@ -49,7 +52,7 @@ export const page500 = {
 export const otherRouter = {
   path: '/',
   name: 'otherRouter',
-  component: Main,
+  component: MainView,
   children: [
     {
       path: 'home',
@@ -69,7 +72,7 @@ export const appRouter = [
     icon: 'ios-folder',
     name: 'group',
     title: '组',
-    component: Main,
+    component: MainView,
     children: [
       {
         path: 'page1',
@@ -107,16 +110,26 @@ export const appRouter = [
     icon: 'ios-paper',
     title: '用户管理',
     name: 'user',
-    component: Main,
+    component: MainView,
     children: [
       {
         path: 'index',
-        // icon: 'ios-paper-outline',
+        name: 'userList',
         title: '用户列表',
-        name: 'userindex',
-        component: resolve => {
-          require(['@/views/user/user.vue'], resolve)
-        }
+        component: userIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'userList',
+            component: userListView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'userInfo',
+            title: '用户信息',
+            component: userInfoView
+          }
+        ]
       }
     ]
   }
