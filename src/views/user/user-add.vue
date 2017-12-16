@@ -98,6 +98,11 @@ export default {
           duration: 3
         })
         return
+      } else {
+        this.$Message.success({
+          content: result.msg,
+          duration: 3
+        })
       }
       //跳转至用户详情页
       this.$router.push({
