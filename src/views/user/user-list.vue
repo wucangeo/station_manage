@@ -24,6 +24,7 @@ export default {
   name: 'user',
   data() {
     return {
+      delayTimer: null, //用于搜索延迟
       query: {
         key: null,
         offset: 0,
@@ -158,9 +159,10 @@ export default {
   },
   watch: {
     'query.key': function(val, oldVal) {
-      let delayTimer = null
-      clearTimeout(delayTimer)
-      delayTimer = setTimeout(() => {
+      if (this.delayTimer) {
+        clearTimeout(this.delayTimer)
+      }
+      this.delayTimer = setTimeout(() => {
         this.list()
       }, 500)
     }
