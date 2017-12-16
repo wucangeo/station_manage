@@ -111,17 +111,20 @@ export const appRouter = [
     icon: 'ios-paper',
     title: '用户管理',
     name: 'user',
+    redirect: { name: 'userIndex' },
     component: MainView,
     children: [
       {
         path: 'index',
-        name: 'userList',
+        name: 'userIndex',
         title: '用户列表',
+        redirect: { name: 'userList' },
         component: userIndexView,
         children: [
           {
             path: 'list',
             name: 'userList',
+            title: '全部用户',
             component: userListView
           },
           {
