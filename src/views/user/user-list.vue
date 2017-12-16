@@ -33,6 +33,7 @@ export default {
       },
       tableColumns: [
         {
+          title: '编号',
           key: 'data_id',
           width: 60,
           align: 'center'
@@ -166,7 +167,6 @@ export default {
   },
   methods: {
     async list() {
-      console.log('aaaa:', this.query)
       let response = await this.apis.user.list(this.query)
       let result = response.data
       if (result.code === 0) {
