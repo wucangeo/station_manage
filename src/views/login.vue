@@ -62,23 +62,24 @@ export default {
     }
   },
   methods: {
-    handleSubmit() {
-      this.$refs.loginForm.validate(valid => {
-        if (valid) {
-          this.apis.user.login(this.form).then(res => {
-            let result = res.data
-            if (result.code === 1) {
-              Cookies.set('user', result.data.name)
-              let access_token = result.data.access_token
-              Cookies.set('access_token', access_token)
-              this.$router.push({
-                name: 'home_index'
-              })
-            } else {
-              this.login_msg = result.msg
-            }
-          })
-        }
+    async handleSubmit() {
+      //表单验证
+      let valid = await this.$refs.loginForm.validate()
+      if (!valid) {
+        return
+      }
+      //登陆
+      let response = await this.apis.user.login(this.form)
+      let result = response.data
+      if (result.code === 0) {
+        this.login_msg = result.msg
+        return
+      }
+      Cookies.set('user', result.data.name)
+      let access_token = result.data.access_token
+      Cookies.set('access_token', access_token)
+      this.$router.push({
+        name: 'home_index'
       })
     }
   }
