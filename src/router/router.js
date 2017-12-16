@@ -2,6 +2,7 @@ import MainView from '@/views/Main.vue'
 import userIndexView from '@/views/user/user-index.vue'
 import userListView from '@/views/user/user-list.vue'
 import userInfoView from '@/views/user/user-info.vue'
+import userAddView from '@/views/user/user-add.vue'
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
@@ -128,6 +129,12 @@ export const appRouter = [
             name: 'userInfo',
             title: '用户信息',
             component: userInfoView
+          },
+          {
+            path: 'add',
+            name: 'userAdd',
+            title: '添加用户',
+            component: userAddView
           }
         ]
       }

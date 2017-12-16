@@ -30,6 +30,15 @@ module.exports = {
       data: data
     })
   },
+  create: function(item) {
+    let access_token = Cookies.get('access_token')
+    return axios({
+      url: `/user`,
+      method: 'post',
+      headers: { 'x-access-token': access_token },
+      data: item
+    })
+  },
   update: function(updates, data_id) {
     let access_token = Cookies.get('access_token')
     return axios({
