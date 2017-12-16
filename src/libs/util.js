@@ -5,7 +5,7 @@ import packjson from '../../package.json'
 
 let util = {}
 util.title = function(title) {
-  title = title || 'iView admin'
+  title = title || '黄土高原水土保持试验站后台管理系统'
   window.document.title = title
 }
 
