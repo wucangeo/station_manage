@@ -164,10 +164,9 @@ export default {
   mounted() {
     let params = this.$route.params
     if (!params || !params.data_id) {
-      this.$Notice.error({
-        title: '提示',
-        desc: '参数错误，即将跳转至用户列表。',
-        duration: 3
+      this.$Message.error({
+        content: '参数错误，即将跳转至用户列表。',
+        duration: 1.5
       })
       setTimeout(() => {
         this.$router.push({ name: 'userList' })
@@ -182,18 +181,16 @@ export default {
       let response = await this.apis.user.get(data_id)
       let result = response.data
       if (result.code === 0) {
-        this.$Notice.error({
-          title: '错误',
-          desc: result.msg,
-          duration: 3
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
         })
         return
       } else {
         if (!result.data) {
-          this.$Notice.error({
-            title: '错误',
-            desc: '未找到该用户。',
-            duration: 3
+          this.$Message.error({
+            content: '未找到该用户。',
+            duration: 1.5
           })
           return
         }
@@ -204,17 +201,15 @@ export default {
       let response = await this.apis.user.update(item, this.data_id)
       let result = response.data
       if (result.code === 0) {
-        this.$Notice.error({
-          title: '错误',
-          desc: result.msg,
-          duration: 3
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
         })
         return
       } else {
-        this.$Notice.success({
-          title: '提示',
-          desc: '修改成功！',
-          duration: 3
+        this.$Message.success({
+          content: '修改成功！',
+          duration: 1.5
         })
         //关闭编辑按钮
         this.formEdit.username = false

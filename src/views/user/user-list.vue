@@ -6,8 +6,8 @@
       </Col>
       <Col span="6">
       <Row type="flex" justify="end">
-        <span @click="">
-          <Button type="primary" size="small" icon="plus">添加</Button>
+        <span>
+          <Button type="primary" size="small" @click="add_user" icon="plus">添加用户</Button>
         </span>
       </Row>
       </Col>
@@ -170,10 +170,9 @@ export default {
       let response = await this.apis.user.list(this.query)
       let result = response.data
       if (result.code === 0) {
-        this.$Notice.error({
-          title: '错误',
-          desc: result.msg,
-          duration: 3
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
         })
         return
       }
@@ -198,16 +197,14 @@ export default {
       let response = await this.apis.user.update({ enable: status }, data_id)
       let result = response.data
       if (result.code === 1) {
-        this.$Notice.success({
-          title: '成功',
-          desc: result.msg,
-          duration: 3
+        this.$Message.success({
+          content: result.msg,
+          duration: 1.5
         })
       } else {
-        this.$Notice.error({
-          title: '错误',
-          desc: result.msg,
-          duration: 3
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
         })
       }
       this.list()
@@ -216,19 +213,22 @@ export default {
       let response = await this.apis.user.delete([data_id])
       let result = response.data
       if (result.code === 1) {
-        this.$Notice.success({
-          title: '成功',
-          desc: result.msg,
-          duration: 3
+        this.$Message.success({
+          content: result.msg,
+          duration: 1.5
         })
       } else {
-        this.$Notice.error({
-          title: '错误',
-          desc: result.msg,
-          duration: 3
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
         })
       }
       this.list()
+    },
+    add_user() {
+      this.$router.push({
+        name: 'userAdd'
+      })
     }
   },
   mounted() {
