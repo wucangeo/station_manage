@@ -1,4 +1,5 @@
 import MainView from '@/views/Main.vue'
+import loginView from '@/views/user/login.vue'
 import userIndexView from '@/views/user/user-index.vue'
 import userListView from '@/views/user/user-list.vue'
 import userInfoView from '@/views/user/user-info.vue'
@@ -11,9 +12,7 @@ export const loginRouter = {
   meta: {
     title: 'Login - 登录'
   },
-  component: resolve => {
-    require(['@/views/login.vue'], resolve)
-  }
+  component: loginView
 }
 
 export const page404 = {

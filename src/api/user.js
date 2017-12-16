@@ -48,6 +48,19 @@ module.exports = {
       data: new_item
     })
   },
+  register: function(item) {
+    let access_token = Cookies.get('access_token')
+    let new_item = { ...item }
+    if (new_item.password) {
+      new_item.password = md5(new_item.password + salt) //密码加密加盐
+    }
+    return axios({
+      url: `/user/register`,
+      method: 'post',
+      headers: { 'x-access-token': access_token },
+      data: new_item
+    })
+  },
   update: function(updates, data_id) {
     let access_token = Cookies.get('access_token')
     let new_updates = { ...updates }
