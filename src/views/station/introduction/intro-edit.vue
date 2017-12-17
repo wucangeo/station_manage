@@ -1,27 +1,46 @@
 <template>
   <div id="intro-view">
-    <Card>
-      <div class="news-title">
-        <div class="news-title-content">
-          <Input v-model="news.title" type="text" placeholder="请输入标题"></Input>
+    <div v-if="!is_preview">
+      <Card>
+        <div class="news-title">
+          <div class="news-title-content">
+            <Input v-model="news.title" type="text" placeholder="请输入标题"></Input>
+          </div>
+          <div class="news-title-button">
+            <Row type="flex" justify="end">
+              <Button type="primary" @click="preiview_change(true)" icon="edit" style="margin-right:10px;">预览</Button>
+              <Button type="primary" @click="update" icon="edit">保存</Button>
+            </Row>
+          </div>
         </div>
-        <div class="news-title-button">
-          <Row type="flex" justify="end">
-            <Button type="primary" @click="" icon="edit" style="margin-right:10px;">预览</Button>
-            <Button type="primary" @click="update" icon="edit">保存</Button>
-          </Row>
+      </Card>
+      <Card class="textarea-card">
+        <div>
+          <quill-editor v-model="news.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
+          </quill-editor>
+          <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
+            <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg(uniqueId)">
+          </form>
         </div>
-      </div>
-    </Card>
-    <Card class="textarea-card">
-      <div>
-        <quill-editor v-model="news.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
-        </quill-editor>
-        <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-          <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg(uniqueId)">
-        </form>
-      </div>
-    </Card>
+      </Card>
+    </div>
+    <div v-if="is_preview">
+      <Card>
+        <Row type="flex" justify="space-between">
+          <span class="news-title">
+            {{news.title}}
+          </span>
+          <span>
+            <Button type="primary" @click="preiview_change(false)" icon="edit">返回</Button>
+            <Button type="primary" @click="update" icon="edit">发布</Button>
+          </span>
+        </Row>
+      </Card>
+      <Card class="ql-editor">
+        <div v-html="news.content"></div>
+      </Card>
+    </div>
+
   </div>
 </template>
 <script>
@@ -40,6 +59,7 @@ export default {
       },
       editorOption: {
         // some quill options
+        placeholder: '请输入文字',
         modules: {
           toolbar: [
             ['bold', 'italic', 'underline', 'strike'], // toggled buttons
@@ -71,7 +91,8 @@ export default {
         }
       },
       imageLoading: false,
-      uniqueId: '12412349'
+      uniqueId: '12412349',
+      is_preview: false
     }
   },
   computed: {},
@@ -123,6 +144,9 @@ export default {
           name: 'stationIntroductionView'
         })
       }
+    },
+    preiview_change(status) {
+      this.is_preview = status
     },
     onEditorBlur(quill) {
       console.log('editor blur!', quill)
