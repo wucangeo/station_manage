@@ -1,5 +1,5 @@
 <template>
-  <div id="station-index">
+  <div id="main-router-index">
     <router-view></router-view>
   </div>
 </template>

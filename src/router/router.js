@@ -1,9 +1,9 @@
 import MainView from '@/views/Main.vue'
 import homeView from '@/views/home/home.vue'
+import MainRouterIndexView from '@/views/main-router-index.vue'
 
 //用户模块
 import loginView from '@/views/user/login.vue'
-import userIndexView from '@/views/user/user-index.vue'
 import userListView from '@/views/user/user-list.vue'
 import userInfoView from '@/views/user/user-info.vue'
 import userAddView from '@/views/user/user-add.vue'
@@ -13,6 +13,10 @@ import introductionViewView from '@/views/station/introduction/intro-view.vue'
 import introductionEditView from '@/views/station/introduction/intro-edit.vue'
 import historyViewView from '@/views/station/history/history-view.vue'
 import historyEditView from '@/views/station/history/history-edit.vue'
+import regulationListView from '@/views/station/regulation/regulation-list.vue'
+import regulationViewView from '@/views/station/regulation/regulation-view.vue'
+import regulationEditView from '@/views/station/regulation/regulation-edit.vue'
+import regulationAddView from '@/views/station/regulation/regulation-add.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -85,7 +89,7 @@ export const appRouter = [
         name: 'stationIntroduction',
         title: '台站简介',
         redirect: { name: 'stationIntroductionView' },
-        component: userIndexView,
+        component: MainRouterIndexView,
         children: [
           {
             path: 'view',
@@ -106,7 +110,7 @@ export const appRouter = [
         name: 'stationHistory',
         title: '历史沿革',
         redirect: { name: 'stationHistoryView' },
-        component: userIndexView,
+        component: MainRouterIndexView,
         children: [
           {
             path: 'view',
@@ -119,6 +123,39 @@ export const appRouter = [
             name: 'stationHistoryEdit',
             title: '编辑',
             component: historyEditView
+          }
+        ]
+      },
+      {
+        path: 'regulation',
+        name: 'stationRegulation',
+        title: '规章制度',
+        redirect: { name: 'stationRegulationList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'stationRegulationList',
+            title: '内容',
+            component: regulationListView
+          },
+          {
+            path: 'view/:data_id',
+            name: 'stationRegulationView',
+            title: '内容',
+            component: regulationViewView
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'stationRegulationEdit',
+            title: '编辑',
+            component: regulationEditView
+          },
+          {
+            path: 'add',
+            name: 'stationRegulationAdd',
+            title: '编辑',
+            component: regulationAddView
           }
         ]
       }
@@ -137,7 +174,7 @@ export const appRouter = [
         name: 'userIndex',
         title: '用户列表',
         redirect: { name: 'userList' },
-        component: userIndexView,
+        component: MainRouterIndexView,
         children: [
           {
             path: 'list',

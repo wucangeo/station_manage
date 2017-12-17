@@ -19,6 +19,7 @@ Vue.use(VueQuillEditor /* { default global options } */)
 Vue.prototype.apis = apis
 
 //载入Filter
+Vue.prototype.filters = filters.default
 Object.keys(filters.default).forEach(key => {
   Vue.filter(key, filters.default[key])
 })
