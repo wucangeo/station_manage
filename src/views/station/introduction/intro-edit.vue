@@ -1,38 +1,128 @@
 <template>
   <div id="intro-view">
     <Card>
-      <Row type="flex" justify="space-between">
-        <span class="news-title">
-          水土保持试验站简介
-        </span>
-        <span>
-          <Button type="primary" @click="edit_intro" icon="edit">编辑</Button>
-        </span>
-      </Row>
+      <div class="news-title">
+        <div class="news-title-content">
+          <Input v-model="news.title" type="text" placeholder="请输入标题"></Input>
+        </div>
+        <div class="news-title-button">
+          <Row type="flex" justify="end">
+            <Button type="primary" @click="" icon="edit" style="margin-right:10px;">预览</Button>
+            <Button type="primary" @click="update" icon="edit">保存</Button>
+          </Row>
+        </div>
+      </div>
     </Card>
-    <Card>
-      <quill-editor v-model="content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
-      </quill-editor>
+    <Card class="textarea-card">
+      <div>
+        <quill-editor v-model="news.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
+        </quill-editor>
+        <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
+          <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg(uniqueId)">
+        </form>
+      </div>
     </Card>
   </div>
 </template>
-
 <script>
+import { Quill } from 'vue-quill-editor'
+import ImageResize from 'quill-image-resize-module'
+Quill.register('modules/imageResize', ImageResize)
+
 export default {
   name: 'home',
   data() {
     return {
-      content: `<p class="tip">在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 <a href="https://en.wikipedia.org/wiki/Cross-site_scripting" target="_blank" rel="noopener">XSS 攻击</a>。只在可信内容上使用 <code>v-html</code>，<strong>永不</strong>用在用户提交的内容上。</p>`,
+      news: {
+        data_id: '',
+        title: '',
+        content: ''
+      },
       editorOption: {
         // some quill options
-      }
+        modules: {
+          toolbar: [
+            ['bold', 'italic', 'underline', 'strike'], // toggled buttons
+            ['blockquote', 'code-block'],
+
+            [{ header: 1 }, { header: 2 }], // custom button values
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
+            [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
+            [{ direction: 'rtl' }], // text direction
+
+            [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
+            [{ header: [1, 2, 3, 4, 5, 6, false] }],
+
+            [{ color: [] }, { background: [] }], // dropdown with defaults from theme
+            [{ font: [] }],
+            [{ align: [] }],
+
+            ['clean'] // remove formatting button
+          ],
+          imageResize: {
+            displayStyles: {
+              backgroundColor: 'black',
+              border: 'none',
+              color: 'white'
+            },
+            modules: ['Resize', 'DisplaySize', 'Toolbar']
+          }
+        }
+      },
+      imageLoading: false,
+      uniqueId: '12412349'
     }
   },
+  computed: {},
   methods: {
-    edit_intro() {
-      this.$router.push({
-        name: 'stationIntroductionEdit'
-      })
+    async get() {
+      let query = {
+        type: 1
+      }
+      let response = await this.apis.station.list(query)
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
+        })
+        return
+      }
+      if (!result.data.rows || result.data.rows.length === 0) {
+        this.$Message.error({
+          content: '',
+          duration: 1.5
+        })
+        return
+      }
+      let news = result.data.rows[0]
+      this.news.data_id = news.data_id
+      this.news.title = news.title
+      this.news.content = news.content
+    },
+    async update() {
+      let response = await this.apis.station.update(
+        this.news,
+        this.news.data_id
+      )
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
+        })
+        return
+      } else {
+        this.$Message.success({
+          content: '修改成功！',
+          duration: 1.5
+        })
+        //刷新页面值
+        this.$router.push({
+          name: 'stationIntroductionView'
+        })
+      }
     },
     onEditorBlur(quill) {
       console.log('editor blur!', quill)
@@ -47,16 +137,31 @@ export default {
       console.log('editor change!', quill, html, text)
       this.content = html
     },
-    uploadImgReq(formData) {},
-    uploadImg: async function(id) {
+    async uploadImgReq(formData) {
+      let response = await this.apis.upload.upload(formData)
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
+        })
+        return null
+      }
+      return result.data.path
+    },
+    async uploadImg(id) {
+      var fileInput = document.getElementById(id) //隐藏的file文本ID
+
       var vm = this
       vm.imageLoading = true
-      var formData = new FormData($('#' + id)[0])
+      var formData = new FormData()
+      formData.append('file', fileInput.files[0])
       try {
         const url = await vm.uploadImgReq(formData) // 自定义的图片上传函数
         if (url != null && url.length > 0) {
-          var value = url
+          var value = CONFIG.SERVER_URL + url
           vm.addImgRange = vm.$refs.myQuillEditor.quill.getSelection()
+          debugger
           value = value.indexOf('http') != -1 ? value : 'http:' + value
           vm.$refs.myQuillEditor.quill.insertEmbed(
             vm.addImgRange != null ? vm.addImgRange.index : 0,
@@ -65,7 +170,7 @@ export default {
             Quill.sources.USER
           )
         } else {
-          vm.$message.warning('图片增加失败')
+          vm.$Message.warning('图片增加失败')
         }
         document.getElementById(vm.uniqueId).value = ''
       } catch ({ message: msg }) {
@@ -73,6 +178,14 @@ export default {
         vm.$message.warning(msg)
       }
       vm.imageLoading = false
+    },
+    imgHandler(image) {
+      let vm = this
+      vm.addImgRange = vm.$refs.myQuillEditor.quill.getSelection()
+      if (image) {
+        var fileInput = document.getElementById(vm.uniqueId) //隐藏的file文本ID
+        fileInput.click() //加一个触发事件
+      }
     }
   },
   computed: {
@@ -81,13 +194,28 @@ export default {
     }
   },
   mounted() {
-    // console.log('this is current quill instance object', this.editor)
+    this.get()
+    this.$refs.myQuillEditor.quill
+      .getModule('toolbar')
+      .addHandler('image', this.imgHandler)
   }
 }
 </script>
 <style lang="less">
 .news-title {
-  font-size: 20px;
-  font-weight: 600;
+  display: flex;
+  flex-flow: row;
+  .news-title-content {
+    font-size: 20px;
+    font-weight: 600;
+    flex: 1;
+  }
+  .news-title-button {
+    width: 200px;
+    float: left;
+  }
+}
+.ql-container {
+  min-height: 600px;
 }
 </style>
