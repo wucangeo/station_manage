@@ -11,6 +11,8 @@ import userAddView from '@/views/user/user-add.vue'
 //台站简介
 import introductionViewView from '@/views/station/introduction/intro-view.vue'
 import introductionEditView from '@/views/station/introduction/intro-edit.vue'
+import historyViewView from '@/views/station/history/history-view.vue'
+import historyEditView from '@/views/station/history/history-edit.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -110,13 +112,13 @@ export const appRouter = [
             path: 'view',
             name: 'stationHistoryView',
             title: '内容',
-            component: userListView
+            component: historyViewView
           },
           {
             path: 'edit',
             name: 'stationHistoryEdit',
             title: '编辑',
-            component: userInfoView
+            component: historyEditView
           }
         ]
       }
