@@ -19,7 +19,7 @@
           <quill-editor v-model="news.content" ref="myQuillEditor" :options="editorOption" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)">
           </quill-editor>
           <form action="" method="post" enctype="multipart/form-data" id="uploadFormMulti">
-            <input style="display: none" :id="uniqueId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg(uniqueId)">
+            <input style="display: none" :id="fileInputId" type="file" name="avator" multiple accept="image/jpg,image/jpeg,image/png,image/gif" @change="uploadImg(fileInputId)">
           </form>
         </div>
       </Card>
@@ -64,34 +64,31 @@ export default {
           toolbar: [
             ['bold', 'italic', 'underline', 'strike'], // toggled buttons
             ['blockquote', 'code-block'],
-
             [{ header: 1 }, { header: 2 }], // custom button values
             [{ list: 'ordered' }, { list: 'bullet' }],
             [{ script: 'sub' }, { script: 'super' }], // superscript/subscript
             [{ indent: '-1' }, { indent: '+1' }], // outdent/indent
             [{ direction: 'rtl' }], // text direction
-
             [{ size: ['small', false, 'large', 'huge'] }], // custom dropdown
             [{ header: [1, 2, 3, 4, 5, 6, false] }],
-
             [{ color: [] }, { background: [] }], // dropdown with defaults from theme
             [{ font: [] }],
             [{ align: [] }],
-
-            ['clean'] // remove formatting button
+            ['clean'], // remove formatting button,
+            ['link', 'image'] // add's image support: 'video', 'formula'
           ],
           imageResize: {
-            displayStyles: {
-              backgroundColor: 'black',
-              border: 'none',
-              color: 'white'
-            },
-            modules: ['Resize', 'DisplaySize', 'Toolbar']
+            // displayStyles: {
+            //   backgroundColor: 'black',
+            //   border: 'none',
+            //   color: 'white'
+            // }
+            // modules: ['Resize', 'DisplaySize', 'Toolbar']
           }
         }
       },
       imageLoading: false,
-      uniqueId: '12412349',
+      fileInputId: '12412349',
       is_preview: false
     }
   },
@@ -149,17 +146,16 @@ export default {
       this.is_preview = status
     },
     onEditorBlur(quill) {
-      console.log('editor blur!', quill)
+      // console.log('editor blur!', quill)
     },
     onEditorFocus(quill) {
-      console.log('editor focus!', quill)
+      // console.log('editor focus!', quill)
     },
     onEditorReady(quill) {
-      console.log('editor ready!', quill)
+      // console.log('editor ready!', quill)
     },
     onEditorChange({ quill, html, text }) {
-      console.log('editor change!', quill, html, text)
-      this.content = html
+      // this.content = html
     },
     async uploadImgReq(formData) {
       let response = await this.apis.upload.upload(formData)
@@ -175,53 +171,50 @@ export default {
     },
     async uploadImg(id) {
       var fileInput = document.getElementById(id) //隐藏的file文本ID
-
-      var vm = this
-      vm.imageLoading = true
+      this.imageLoading = true
       var formData = new FormData()
       formData.append('file', fileInput.files[0])
       try {
-        const url = await vm.uploadImgReq(formData) // 自定义的图片上传函数
+        const url = await this.uploadImgReq(formData) // 自定义的图片上传函数
         if (url != null && url.length > 0) {
           var value = CONFIG.SERVER_URL + url
-          vm.addImgRange = vm.$refs.myQuillEditor.quill.getSelection()
-          debugger
+          this.addImgRange = this.quillEditor.getSelection()
           value = value.indexOf('http') != -1 ? value : 'http:' + value
-          vm.$refs.myQuillEditor.quill.insertEmbed(
-            vm.addImgRange != null ? vm.addImgRange.index : 0,
+          this.quillEditor.insertEmbed(
+            this.addImgRange != null ? this.addImgRange.index : 0,
             'image',
             value,
             Quill.sources.USER
           )
         } else {
-          vm.$Message.warning('图片增加失败')
+          this.$Message.warning('图片添加失败')
         }
-        document.getElementById(vm.uniqueId).value = ''
+        document.getElementById(this.fileInputId).value = ''
       } catch ({ message: msg }) {
-        document.getElementById(vm.uniqueId).value = ''
-        vm.$message.warning(msg)
+        document.getElementById(this.fileInputId).value = ''
+        this.$message.warning(msg)
       }
-      vm.imageLoading = false
+      this.imageLoading = false
     },
     imgHandler(image) {
-      let vm = this
-      vm.addImgRange = vm.$refs.myQuillEditor.quill.getSelection()
+      this.addImgRange = this.quillEditor.getSelection()
       if (image) {
-        var fileInput = document.getElementById(vm.uniqueId) //隐藏的file文本ID
+        var fileInput = document.getElementById(this.fileInputId) //隐藏的file文本ID
         fileInput.click() //加一个触发事件
       }
     }
   },
   computed: {
-    editor() {
+    quillEditor() {
       return this.$refs.myQuillEditor.quill
     }
   },
   mounted() {
     this.get()
-    this.$refs.myQuillEditor.quill
-      .getModule('toolbar')
-      .addHandler('image', this.imgHandler)
+    this.quillEditor.getModule('toolbar').addHandler('image', this.imgHandler)
+    let quifllHeight = document.body.offsetHeight - 230
+    document.getElementsByClassName('ql-container')[0].style.height =
+      quifllHeight + 'px'
   }
 }
 </script>
@@ -235,11 +228,20 @@ export default {
     flex: 1;
   }
   .news-title-button {
-    width: 200px;
+    width: 180px;
     float: left;
   }
 }
 .ql-container {
-  min-height: 600px;
+  min-height: 400px;
+  // height: calc(~'50% - 30px');
+  overflow-y: auto;
+}
+.textarea-card {
+  height: 100%;
+  // max-height: 400px;
+}
+.main .single-page-con {
+  overflow: hidden;
 }
 </style>
