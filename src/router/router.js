@@ -1,9 +1,20 @@
 import MainView from '@/views/Main.vue'
+import homeView from '@/views/home/home.vue'
+
+//用户模块
 import loginView from '@/views/user/login.vue'
 import userIndexView from '@/views/user/user-index.vue'
 import userListView from '@/views/user/user-list.vue'
 import userInfoView from '@/views/user/user-info.vue'
 import userAddView from '@/views/user/user-add.vue'
+
+//台站简介
+import introductionViewView from '@/views/station/introduction/intro-view.vue'
+import introductionEditView from '@/views/station/introduction/intro-edit.vue'
+
+import error_404 from '@/views/error-page/404.vue'
+import error_403 from '@/views/error-page/403.vue'
+import error_500 from '@/views/error-page/500.vue'
 
 // 不作为Main组件的子页面展示的页面单独写，如下
 export const loginRouter = {
@@ -21,9 +32,7 @@ export const page404 = {
   meta: {
     title: '404-页面不存在'
   },
-  component: resolve => {
-    require(['@/views/error-page/404.vue'], resolve)
-  }
+  component: error_404
 }
 
 export const page403 = {
@@ -32,9 +41,7 @@ export const page403 = {
     title: '403-权限不足'
   },
   name: 'error-403',
-  component: resolve => {
-    require(['@//views/error-page/403.vue'], resolve)
-  }
+  component: error_403
 }
 
 export const page500 = {
@@ -43,9 +50,7 @@ export const page500 = {
     title: '500-服务端错误'
   },
   name: 'error-500',
-  component: resolve => {
-    require(['@/views/error-page/500.vue'], resolve)
-  }
+  component: error_500
 }
 
 // 作为Main组件的子页面展示但是不在左侧菜单显示的路由写在otherRouter里
@@ -56,11 +61,9 @@ export const otherRouter = {
   children: [
     {
       path: 'home',
-      title: { i18n: 'home' },
+      title: '首页',
       name: 'home_index',
-      component: resolve => {
-        require(['@/views/home/home.vue'], resolve)
-      }
+      component: homeView
     }
   ]
 }
@@ -68,40 +71,54 @@ export const otherRouter = {
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
   {
-    path: '/group',
-    icon: 'ios-folder',
-    name: 'group',
-    title: '组',
+    path: '/station',
+    icon: 'ios-paper',
+    title: '站点介绍',
+    name: 'station',
+    redirect: { name: 'stationIntroduction' },
     component: MainView,
     children: [
       {
-        path: 'page1',
-        icon: 'ios-paper-outline',
-        name: 'page1',
-        title: '第一页',
-        component: resolve => {
-          require(['@/views/group/page1/page1.vue'], resolve)
-        },
+        path: 'introduction',
+        name: 'stationIntroduction',
+        title: '台站简介',
+        redirect: { name: 'stationIntroductionView' },
+        component: userIndexView,
         children: [
           {
-            path: 'page11',
-            icon: 'ios-paper-outline',
-            name: 'page11',
-            title: '第11页',
-            component: resolve => {
-              require(['@/views/group/page1/page11.vue'], resolve)
-            }
+            path: 'view',
+            name: 'stationIntroductionView',
+            title: '内容',
+            component: introductionViewView
+          },
+          {
+            path: 'edit',
+            name: 'stationIntroductionEdit',
+            title: '编辑',
+            component: introductionEditView
           }
         ]
       },
       {
-        path: 'page2',
-        icon: 'ios-list-outline',
-        name: 'page2',
-        title: 'Page2',
-        component: resolve => {
-          require(['@/views/group/page2/page2.vue'], resolve)
-        }
+        path: 'history',
+        name: 'stationHistory',
+        title: '历史沿革',
+        redirect: { name: 'stationHistoryView' },
+        component: userIndexView,
+        children: [
+          {
+            path: 'view',
+            name: 'stationHistoryView',
+            title: '内容',
+            component: userListView
+          },
+          {
+            path: 'edit',
+            name: 'stationHistoryEdit',
+            title: '编辑',
+            component: userInfoView
+          }
+        ]
       }
     ]
   },

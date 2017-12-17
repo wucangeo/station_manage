@@ -1,19 +1,18 @@
 <style lang="less">
-@import "./home.less";
+@import './home.less';
 </style>
 <template>
-    <div class="home-main">
-        
-    </div>
+  <div class="home-main">
+  </div>
 </template>
 
 <script>
 export default {
-  name: "home",
+  name: 'home',
   data() {
     return {
       //
-    };
+    }
   }
-};
+}
 </script>

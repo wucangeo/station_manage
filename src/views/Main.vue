@@ -6,8 +6,8 @@
     <div class="sidebar-menu-con" :style="{width: shrink?'60px':'200px', overflow: shrink ? 'visible' : 'auto'}">
       <shrinkable-menu :shrink="shrink" :menu-list="menuList">
         <div slot="top" class="logo-con">
-          <img v-show="!shrink" src="../images/logo.jpg" key="max-logo" />
-          <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" />
+          <!-- <img v-show="!shrink" src="../images/logo.jpg" key="max-logo" /> -->
+          <!-- <img v-show="shrink" src="../images/logo-min.jpg" key="min-logo" /> -->
         </div>
       </shrinkable-menu>
     </div>
