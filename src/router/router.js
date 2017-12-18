@@ -18,6 +18,12 @@ import regulationViewView from '@/views/station/regulation/regulation-view.vue'
 import regulationEditView from '@/views/station/regulation/regulation-edit.vue'
 import regulationAddView from '@/views/station/regulation/regulation-add.vue'
 
+//新闻公告
+import newsListView from '@/views/news/news-list.vue'
+import newsViewView from '@/views/news/news-view.vue'
+import newsEditView from '@/views/news/news-edit.vue'
+import newsAddView from '@/views/news/news-add.vue'
+
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
 import error_500 from '@/views/error-page/500.vue'
@@ -65,17 +71,267 @@ export const otherRouter = {
   name: 'otherRouter',
   component: MainView,
   children: [
-    {
-      path: 'home',
-      title: '首页',
-      name: 'home_index',
-      component: homeView
-    }
+    // {
+    //   path: 'home',
+    //   title: '首页',
+    //   name: 'home_index',
+    //   component: homeView
+    // }
   ]
 }
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
+  {
+    path: '/home',
+    title: "首页",
+    name: 'home',
+    icon: 'ios-home',
+    component: MainView,
+    children: [
+      {
+        path: 'home',
+        title: '首页',
+        name: 'home_index',
+        component: homeView
+      }
+    ]
+  },
+  {
+    path: '/news',
+    icon: 'ios-paper',
+    title: '新闻公告',
+    name: 'news',
+    redirect: { name: 'newsNotice' },
+    component: MainView,
+    children: [
+      {
+        path: 'notice',
+        name: 'newsNotice',
+        title: '通知公告',
+        redirect: { name: 'newsNoticeList', params: { type: 1 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsNoticeList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsNoticeView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsNoticeEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsNoticeAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsNews',
+        title: '综合新闻',
+        redirect: { name: 'newsNewsList', params: { type: 2 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsNewsList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsNewsView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsNewsEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsNewsAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsResearch',
+        title: '科研动态',
+        redirect: { name: 'newsResearchList', params: { type: 3 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsResearchList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsResearchView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsResearchEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsResearchAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsService',
+        title: '服务动态',
+        redirect: { name: 'newsServiceList', params: { type: 4 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsServiceList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsServiceView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsServiceEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsServiceAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsExchange',
+        title: '合作交流',
+        redirect: { name: 'newsExchangeList', params: { type: 5 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsExchangeList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsExchangeView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsExchangeEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsExchangeAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsPopularization',
+        title: '科普活动',
+        redirect: { name: 'newsPopularizationList', params: { type: 6 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsPopularizationList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsPopularizationView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsPopularizationEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsPopularizationAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }, {
+        path: 'news',
+        name: 'newsReport',
+        title: '专题报道',
+        redirect: { name: 'newsReportList', params: { type: 7 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'newsReportList',
+            title: '内容',
+            component: newsListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'newsReportView',
+            title: '内容',
+            component: newsViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'newsReportEdit',
+            title: '编辑',
+            component: newsEditView
+          },
+          {
+            path: ':type/add',
+            name: 'newsReportAdd',
+            title: '编辑',
+            component: newsAddView
+          }
+        ]
+      }
+    ]
+  },
   {
     path: '/station',
     icon: 'ios-paper',
