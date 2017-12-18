@@ -34,7 +34,6 @@ export default {
       },
       tableColumns: [
         {
-          title: '编号',
           key: 'data_id',
           width: 60,
           align: 'center'

@@ -35,7 +35,6 @@ export default {
       },
       tableColumns: [
         {
-          // title: '编号',
           type: 'index',
           width: 60,
           align: 'center'
