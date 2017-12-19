@@ -115,13 +115,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsNoticeList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsNoticeView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -133,7 +133,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsNoticeAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -147,13 +147,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsNewsList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsNewsView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -165,7 +165,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsNewsAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -179,13 +179,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsResearchList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsResearchView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -197,7 +197,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsResearchAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -211,13 +211,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsServiceList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsServiceView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -229,7 +229,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsServiceAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -243,13 +243,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsExchangeList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsExchangeView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -261,7 +261,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsExchangeAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -275,13 +275,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsPopularizationList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsPopularizationView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -293,7 +293,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsPopularizationAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -307,13 +307,13 @@ export const appRouter = [
           {
             path: ':type/list',
             name: 'newsReportList',
-            title: '内容',
+            title: '列表',
             component: newsListView
           },
           {
             path: ':type/view/:data_id',
             name: 'newsReportView',
-            title: '内容',
+            title: '查看',
             component: newsViewView
           },
           {
@@ -325,7 +325,7 @@ export const appRouter = [
           {
             path: ':type/add',
             name: 'newsReportAdd',
-            title: '编辑',
+            title: '添加',
             component: newsAddView
           }
         ]
@@ -398,7 +398,7 @@ export const appRouter = [
           {
             path: 'view/:data_id',
             name: 'stationRegulationView',
-            title: '内容',
+            title: '查看',
             component: regulationViewView
           },
           {
