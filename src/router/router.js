@@ -24,6 +24,12 @@ import newsViewView from '@/views/news/news-view.vue'
 import newsEditView from '@/views/news/news-edit.vue'
 import newsAddView from '@/views/news/news-add.vue'
 
+//专题服务
+import thematicListView from '@/views/thematic/thematic-list.vue'
+import thematicViewView from '@/views/thematic/thematic-view.vue'
+import thematicEditView from '@/views/thematic/thematic-edit.vue'
+import thematicAddView from '@/views/thematic/thematic-add.vue'
+
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
 import error_500 from '@/views/error-page/500.vue'
@@ -94,6 +100,91 @@ export const appRouter = [
         title: '首页',
         name: 'home_index',
         component: homeView
+      }
+    ]
+  },
+  {
+    path: '/station',
+    icon: 'ios-paper',
+    title: '站点介绍',
+    name: 'station',
+    redirect: { name: 'stationIntroduction' },
+    component: MainView,
+    children: [
+      {
+        path: 'introduction',
+        name: 'stationIntroduction',
+        title: '台站简介',
+        redirect: { name: 'stationIntroductionView' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'view',
+            name: 'stationIntroductionView',
+            title: '内容',
+            component: introductionViewView
+          },
+          {
+            path: 'edit',
+            name: 'stationIntroductionEdit',
+            title: '编辑',
+            component: introductionEditView
+          }
+        ]
+      },
+      {
+        path: 'history',
+        name: 'stationHistory',
+        title: '历史沿革',
+        redirect: { name: 'stationHistoryView' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'view',
+            name: 'stationHistoryView',
+            title: '内容',
+            component: historyViewView
+          },
+          {
+            path: 'edit',
+            name: 'stationHistoryEdit',
+            title: '编辑',
+            component: historyEditView
+          }
+        ]
+      },
+      {
+        path: 'regulation',
+        name: 'stationRegulation',
+        title: '规章制度',
+        redirect: { name: 'stationRegulationList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'stationRegulationList',
+            title: '内容',
+            component: regulationListView
+          },
+          {
+            path: 'view/:data_id',
+            name: 'stationRegulationView',
+            title: '查看',
+            component: regulationViewView
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'stationRegulationEdit',
+            title: '编辑',
+            component: regulationEditView
+          },
+          {
+            path: 'add',
+            name: 'stationRegulationAdd',
+            title: '编辑',
+            component: regulationAddView
+          }
+        ]
       }
     ]
   },
@@ -333,85 +424,117 @@ export const appRouter = [
     ]
   },
   {
-    path: '/station',
+    path: '/thematic',
     icon: 'ios-paper',
-    title: '站点介绍',
-    name: 'station',
-    redirect: { name: 'stationIntroduction' },
+    title: '专题服务',
+    name: 'thematic',
+    redirect: { name: 'thematicProduction' },
     component: MainView,
     children: [
       {
-        path: 'introduction',
-        name: 'stationIntroduction',
-        title: '台站简介',
-        redirect: { name: 'stationIntroductionView' },
+        path: 'production',
+        name: 'thematicProduction',
+        title: '生产与实践',
+        redirect: { name: 'thematicProductionList', params: { type: 4 } },
         component: MainRouterIndexView,
         children: [
           {
-            path: 'view',
-            name: 'stationIntroductionView',
-            title: '内容',
-            component: introductionViewView
+            path: ':type/list',
+            name: 'thematicProductionList',
+            title: '列表',
+            component: thematicListView
           },
           {
-            path: 'edit',
-            name: 'stationIntroductionEdit',
-            title: '编辑',
-            component: introductionEditView
-          }
-        ]
-      },
-      {
-        path: 'history',
-        name: 'stationHistory',
-        title: '历史沿革',
-        redirect: { name: 'stationHistoryView' },
-        component: MainRouterIndexView,
-        children: [
-          {
-            path: 'view',
-            name: 'stationHistoryView',
-            title: '内容',
-            component: historyViewView
-          },
-          {
-            path: 'edit',
-            name: 'stationHistoryEdit',
-            title: '编辑',
-            component: historyEditView
-          }
-        ]
-      },
-      {
-        path: 'regulation',
-        name: 'stationRegulation',
-        title: '规章制度',
-        redirect: { name: 'stationRegulationList' },
-        component: MainRouterIndexView,
-        children: [
-          {
-            path: 'list',
-            name: 'stationRegulationList',
-            title: '内容',
-            component: regulationListView
-          },
-          {
-            path: 'view/:data_id',
-            name: 'stationRegulationView',
+            path: ':type/view/:data_id',
+            name: 'thematicProductionView',
             title: '查看',
-            component: regulationViewView
+            component: thematicViewView
           },
           {
-            path: 'edit/:data_id',
-            name: 'stationRegulationEdit',
+            path: ':type/edit/:data_id',
+            name: 'thematicProductionEdit',
             title: '编辑',
-            component: regulationEditView
+            component: thematicEditView
           },
           {
-            path: 'add',
-            name: 'stationRegulationAdd',
+            path: ':type/add',
+            name: 'thematicProductionAdd',
+            title: '添加',
+            component: thematicAddView
+          }
+        ]
+      }, {
+        path: 'science',
+        name: 'thematicScience',
+        title: '服务科学研究',
+        redirect: { name: 'thematicScienceList', params: { type: 5 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'thematicScienceList',
+            title: '列表',
+            component: thematicListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'thematicScienceView',
+            title: '查看',
+            component: thematicViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'thematicScienceEdit',
             title: '编辑',
-            component: regulationAddView
+            component: thematicEditView
+          },
+          {
+            path: ':type/add',
+            name: 'thematicScienceAdd',
+            title: '添加',
+            component: thematicAddView
+          }
+        ]
+      }
+    ]
+  }, {
+    path: '/scientific',
+    icon: 'ios-paper',
+    title: '科学普及',
+    name: 'scientific',
+    redirect: { name: 'scientificProduction' },
+    component: MainView,
+    children: [
+      {
+        path: 'knowledge',
+        name: 'scientificKnowledge',
+        title: '科普知识',
+        redirect: { name: 'scientificKnowledgeList', params: { type: 6 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'scientificKnowledgeList',
+            title: '列表',
+            component: thematicListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'scientificKnowledgeView',
+            title: '查看',
+            component: thematicViewView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'scientificKnowledgeEdit',
+            title: '编辑',
+            component: thematicEditView
+          },
+          {
+            path: ':type/add',
+            name: 'scientificKnowledgeAdd',
+            title: '添加',
+            component: thematicAddView
           }
         ]
       }
