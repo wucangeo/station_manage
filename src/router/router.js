@@ -30,6 +30,10 @@ import thematicViewView from '@/views/thematic/thematic-view.vue'
 import thematicEditView from '@/views/thematic/thematic-edit.vue'
 import thematicAddView from '@/views/thematic/thematic-add.vue'
 
+//图片列表
+import imageListView from '@/views/image/image-list.vue'
+import imageViewView from '@/views/image/image-view.vue'
+
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
 import error_500 from '@/views/error-page/500.vue'
@@ -535,6 +539,28 @@ export const appRouter = [
             name: 'scientificKnowledgeAdd',
             title: '添加',
             component: thematicAddView
+          }
+        ]
+      },
+
+      {
+        path: 'image',
+        name: 'scientificImage',
+        title: '生态图片',
+        redirect: { name: 'scientificImageList', params: { type: 1 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'scientificImageList',
+            title: '列表',
+            component: imageListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'scientificImageView',
+            title: '查看',
+            component: imageViewView
           }
         ]
       }
