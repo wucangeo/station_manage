@@ -3,7 +3,7 @@
     <!-- <Card :padding="10"> -->
     <Row type="flex" justify="end">
       <span>
-        <Button type="primary" @click="" icon="plus">添加</Button>
+        <Button type="primary" @click="is_add_modal=true" icon="plus">添加</Button>
       </span>
     </Row>
     <Row type="flex" justify="start" class="image-list-row">
@@ -23,26 +23,22 @@
         </Card>
       </div>
       </Col>
-      <Col class="image-item">
-      <Card :padding="10">
-        <p slot="title">添加新的图片
-        </p>
-        <p class="image-item-title">
-          <Input placeholder="请输入标题..." style="width: 258px"></Input>
-        </p>
-        <p class="upload-image">
-          <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
-            <div style="padding: 20px 0">
-              <Icon type="plus-round" size="52" style="color: #3399ff"></Icon>
-              <p>点击这里上传</p>
-            </div>
-          </Upload>
-        </p>
-        <!-- <Button type="error">Delete</Button> -->
-      </Card>
-      </Col>
     </Row>
     <!-- </Card> -->
+    <Modal v-model="is_add_modal" title="添加图片" :width="400" @on-ok="ok" @on-cancel="cancel">
+      <p class="image-item-title">
+        <Input placeholder="请输入标题..."></Input>
+      </p>
+      <p class="upload-image">
+        <Upload multiple type="drag" action="//jsonplaceholder.typicode.com/posts/">
+          <div style="padding: 20px 0">
+            <Icon type="plus-round" size="52" style="color: #3399ff"></Icon>
+            <p>点击这里上传</p>
+          </div>
+        </Upload>
+      </p>
+      <!-- <Button type="error">Delete</Button> -->
+    </Modal>
   </div>
 </template>
 <script>
@@ -59,7 +55,8 @@ export default {
         order_by: 'data_id'
       },
       image_list: [],
-      cur_hover: null
+      cur_hover: null,
+      is_add_modal: false
     }
   },
   methods: {
@@ -80,6 +77,12 @@ export default {
     },
     mouseLeave(item) {
       this.cur_hover = null
+    },
+    ok() {
+      this.$Message.info('Clicked ok')
+    },
+    cancel() {
+      this.$Message.info('Clicked cancel')
     }
   },
   mounted() {
@@ -91,7 +94,7 @@ export default {
 .image-list-row {
   overflow-y: auto;
   .image-item {
-    width: 278px;
+    width: 274px;
     height: 250px;
     margin: 8px 4px;
     .ivu-card {
@@ -105,10 +108,7 @@ export default {
         color: #828282;
       }
       .ivu-upload {
-        height: 130px;
-      }
-      .image-item-title {
-        margin-bottom: 10px;
+        height: 10px;
       }
       .image-extra {
         display: none;
@@ -137,5 +137,8 @@ export default {
       max-height: 100%;
     }
   }
+}
+.image-item-title {
+  margin-bottom: 10px;
 }
 </style>

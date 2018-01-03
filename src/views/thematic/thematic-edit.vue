@@ -273,7 +273,4 @@ export default {
   height: 100%;
   // max-height: 400px;
 }
-.main .single-page-con {
-  overflow: hidden;
-}
 </style>
