@@ -2,7 +2,7 @@
   <div>
     <Row type="flex" justify="space-between">
       <Col span="18">
-      <Input v-model="query.key" icon="search" placeholder="请输入标题..." style="width: 200px" />
+      <Input v-model="query.keys.title" icon="search" placeholder="请输入标题..." style="width: 200px" />
       </Col>
       <Col span="6">
       <Row type="flex" justify="end">
@@ -35,8 +35,10 @@ export default {
       ],
       delayTimer: null, //用于搜索延迟
       query: {
-        key: null,
-        type: 1, //类型为3，规章制度
+        keys: {
+          title: null,
+          type: 1 //类型为3，规章制度
+        },
         offset: 0,
         limit: 10,
         order: 1,
@@ -163,14 +165,14 @@ export default {
   },
   computed: {
     type() {
-      return this.query.type
+      return this.query.keys.type
     },
     typeName() {
       return this.typeDic[this.type]
     }
   },
   watch: {
-    'query.key': function(val, oldVal) {
+    'query.keys.title': function(val, oldVal) {
       if (this.delayTimer) {
         clearTimeout(this.delayTimer)
       }
@@ -193,7 +195,7 @@ export default {
         }, 1500)
         return
       }
-      this.query.type = parseInt(params.type)
+      this.query.keys.type = parseInt(params.type)
       this.list()
     }
   },
@@ -264,7 +266,7 @@ export default {
       }, 1500)
       return
     }
-    this.query.type = parseInt(params.type)
+    this.query.keys.type = parseInt(params.type)
     this.list()
   }
 }

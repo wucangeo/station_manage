@@ -48,6 +48,7 @@ export default {
     return {
       query: {
         keys: {
+          name: null,
           type: 1
         },
         offset: 0,
@@ -77,6 +78,26 @@ export default {
     },
     uploadData: function() {
       return { type: this.type }
+    }
+  },
+  watch: {
+    $route(to, from) {
+      let params = this.$route.params
+      if (!params || !params.type) {
+        this.$Message.error({
+          content: '参数错误，即将跳转至首页。',
+          duration: 2
+        })
+        setTimeout(() => {
+          this.$router.push({
+            name: 'home',
+            params: { type: this.type }
+          })
+        }, 1500)
+        return
+      }
+      this.type = parseInt(params.type)
+      this.list()
     }
   },
   methods: {

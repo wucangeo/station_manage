@@ -2,7 +2,7 @@
   <div>
     <Row type="flex" justify="space-between">
       <Col span="18">
-      <Input v-model="query.key" icon="search" placeholder="请输入姓名搜索..." style="width: 200px" />
+      <Input v-model="query.keys.name" icon="search" placeholder="请输入姓名搜索..." style="width: 200px" />
       </Col>
       <Col span="6">
       <Row type="flex" justify="end">
@@ -26,7 +26,9 @@ export default {
     return {
       delayTimer: null, //用于搜索延迟
       query: {
-        key: null,
+        keys: {
+          name: null
+        },
         offset: 0,
         limit: 10,
         order: 0,
@@ -157,7 +159,7 @@ export default {
     }
   },
   watch: {
-    'query.key': function(val, oldVal) {
+    'query.keys.name': function(val, oldVal) {
       if (this.delayTimer) {
         clearTimeout(this.delayTimer)
       }
