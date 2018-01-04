@@ -565,6 +565,36 @@ export const appRouter = [
         ]
       }
     ]
+  }, {
+    path: '/scenery',
+    icon: 'ios-paper',
+    title: '台站风光',
+    name: 'scenery',
+    redirect: { name: 'sceneryImage' },
+    component: MainView,
+    children: [
+      {
+        path: 'image',
+        name: 'sceneryImage',
+        title: '生态图片',
+        redirect: { name: 'sceneryImageList', params: { type: 2 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'sceneryImageList',
+            title: '列表',
+            component: imageListView
+          },
+          {
+            path: ':type/view/:data_id',
+            name: 'sceneryImageView',
+            title: '查看',
+            component: imageViewView
+          }
+        ]
+      }
+    ]
   },
   {
     path: '/user',

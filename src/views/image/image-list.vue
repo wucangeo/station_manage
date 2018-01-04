@@ -26,7 +26,7 @@
         <p slot="title">上传新的图片
         </p>
         <p class="upload-image">
-          <Upload multiple type="drag" :action="uploadURL" :on-success="uploadSuccess" :headers="uploadHeader" :data="uploadData">
+          <Upload ref="imageUploader" type="drag" :action="uploadURL" :on-success="uploadSuccess" :on-error="uploadError" :headers="uploadHeader" :data="uploadData">
             <div style="padding: 20px 0">
               <Icon type="plus-round" size="52" style="color: #3399ff"></Icon>
               <p>点击这里上传</p>
@@ -47,8 +47,9 @@ export default {
   data() {
     return {
       query: {
-        key: '',
-        type: 1,
+        keys: {
+          type: 1
+        },
         offset: 0,
         limit: -1,
         order: 0,
@@ -58,7 +59,6 @@ export default {
       cur_hover: null,
       is_add_modal: false,
       uploadHeader: { 'x-access-token': access_token },
-      uploadData: { type: 1 },
       cur_edit: null,
       newImageName: ''
     }
@@ -66,6 +66,17 @@ export default {
   computed: {
     uploadURL: function() {
       return CONFIG.API_V1 + '/image/upload'
+    },
+    type: {
+      get: function() {
+        return this.query.keys.type
+      },
+      set: function(value) {
+        this.query.keys.type = value
+      }
+    },
+    uploadData: function() {
+      return { type: this.type }
     }
   },
   methods: {
@@ -88,7 +99,11 @@ export default {
       this.cur_hover = null
     },
     uploadSuccess() {
+      this.$refs.imageUploader.clearFiles()
       this.list()
+    },
+    uploadError(err) {
+      debugger
     },
     setEdit(item) {
       this.cur_edit = item.data_id
@@ -135,6 +150,20 @@ export default {
     }
   },
   mounted() {
+    let params = this.$route.params
+    if (!params || !params.type) {
+      this.$Message.error({
+        content: '参数错误，即将跳转至首页。',
+        duration: 1.5
+      })
+      setTimeout(() => {
+        this.$router.push({
+          name: `home`
+        })
+      }, 1500)
+      return
+    }
+    this.type = parseInt(params.type)
     this.list()
   }
 }
