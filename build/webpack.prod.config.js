@@ -16,7 +16,7 @@ fs.open("./build/env.js", "w", function(err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
   output: {
-    publicPath: "https://iview.github.io/iview-admin/dist/",
+    publicPath: "http://47.93.225.139:7001/public/dist/",
     filename: "[name].[hash].js",
     chunkFilename: "[name].[hash].chunk.js"
   },
@@ -43,11 +43,12 @@ module.exports = merge(webpackBaseConfig, {
       }
     }),
     new HtmlWebpackPlugin({
-      title: "iView admin v" + package.version,
+      title: "soil station v" + package.version,
       favicon: "./td_icon.ico",
       filename: "../index.html",
       template: "./src/template/index.ejs",
-      inject: false
+      inject: false,
+      assetsSubDirectory: "static"
     })
   ]
 });
