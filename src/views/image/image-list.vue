@@ -124,7 +124,10 @@ export default {
       this.list()
     },
     uploadError(err) {
-      debugger
+      this.$Message.error({
+        content:err,
+        duration:1.5
+      })
     },
     setEdit(item) {
       this.cur_edit = item.data_id

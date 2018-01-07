@@ -53,6 +53,7 @@ module.exports = {
     })
   },
   upload: function (item) {
+    debugger
     let access_token = Cookies.get('access_token')
     return axios({
       url: '/image/upload',
