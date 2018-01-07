@@ -34,6 +34,17 @@ import thematicAddView from '@/views/thematic/thematic-add.vue'
 import imageListView from '@/views/image/image-list.vue'
 import imageViewView from '@/views/image/image-view.vue'
 
+//成果----------------------------
+//论文
+import paperListView from '@/views/achv/paper/paper-list.vue'
+import paperInfoView from '@/views/achv/paper/paper-info.vue'
+import paperAddView from '@/views/achv/paper/paper-add.vue'
+import paperTrashView from '@/views/achv/paper/paper-trash.vue'
+//专著
+import monographyListView from '@/views/achv/monography/monography-list.vue'
+import monographyInfoView from '@/views/achv/monography/monography-info.vue'
+import monographyAddView from '@/views/achv/monography/monography-add.vue'
+
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
 import error_500 from '@/views/error-page/500.vue'
@@ -422,6 +433,75 @@ export const appRouter = [
             name: 'newsReportAdd',
             title: '添加',
             component: newsAddView
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/science-achv',
+    icon: 'ios-paper',
+    title: '科研成果',
+    name: 'science_achv',
+    redirect: { name: 'paperIndex' },
+    component: MainView,
+    children: [
+      {
+        path: 'paper',
+        name: 'paperIndex',
+        title: '科研论文',
+        redirect: { name: 'paperList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'paperList',
+            title: '全部论文',
+            component: paperListView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'paperInfo',
+            title: '论文详情',
+            component: paperInfoView
+          },
+          {
+            path: 'add',
+            name: 'paperAdd',
+            title: '添加论文',
+            component: paperAddView
+          },
+          {
+            path: 'add',
+            name: 'paperTrash',
+            title: '回收站',
+            component: paperTrashView
+          }
+        ]
+      }, {
+        path: 'index',
+        name: 'monographyIndex',
+        title: '专著',
+        redirect: { name: 'monographyList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'monographyList',
+            title: '全部专著',
+            component: monographyListView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'monographyInfo',
+            title: '专著信息',
+            component: monographyInfoView
+          },
+          {
+            path: 'add',
+            name: 'monographyAdd',
+            title: '添加专著',
+            component: monographyAddView
           }
         ]
       }
