@@ -9,14 +9,14 @@ const fs = require("fs");
 const path = require("path");
 const package = require("../package.json");
 
-fs.open("./build/env.js", "w", function(err, fd) {
+fs.open("./build/env.js", "w", function (err, fd) {
   const buf = 'export default "production";';
-  fs.write(fd, buf, 0, buf.length, 0, function(err, written, buffer) {});
+  fs.write(fd, buf, 0, buf.length, 0, function (err, written, buffer) { });
 });
 
 module.exports = merge(webpackBaseConfig, {
   output: {
-    publicPath: "http://47.93.225.139:7001/public/dist/",
+    publicPath: "http://47.93.225.139:8080/dist/",
     filename: "[name].[hash].js",
     chunkFilename: "[name].[hash].chunk.js"
   },
@@ -43,7 +43,7 @@ module.exports = merge(webpackBaseConfig, {
       }
     }),
     new HtmlWebpackPlugin({
-      title: "soil station v" + package.version,
+      title: "黄土高原水土保持试验站后台管理系统",
       favicon: "./td_icon.ico",
       filename: "../index.html",
       template: "./src/template/index.ejs",
