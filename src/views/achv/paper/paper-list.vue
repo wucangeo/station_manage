@@ -13,8 +13,11 @@
       </Row>
       </Col>
     </Row>
-    <Row class="margin-top-10 searchable-table-con1">
-      <Table border :columns="tableColumns" :data="tableData"></Table>
+    <Row class="margin-top-10">
+      <Table border :columns="tableColumns" :data="tableData.rows" :height="table_height"></Table>
+    </Row>
+    <Row class="margin-top-10">
+      <Page :total="tableData.count" :page-size="query.limit" @on-change="page_change" show-elevator show-total></Page>
     </Row>
   </div>
 
@@ -26,13 +29,15 @@ export default {
   data() {
     return {
       delayTimer: null, //用于搜索延迟
+      page_num: 1,
+      table_height: 600, //表格高度
       query: {
         keys: {
           title: null,
           enable: 1
         },
         offset: 0,
-        limit: 10,
+        limit: 20,
         order: 0,
         order_by: 'data_id'
       },
@@ -70,7 +75,7 @@ export default {
           align: 'center'
         },
         {
-          title: 'Action',
+          title: '操作',
           key: 'action',
           width: 140,
           align: 'center',
@@ -143,6 +148,14 @@ export default {
       this.delayTimer = setTimeout(() => {
         this.list()
       }, 500)
+    },
+    $route(to, from) {
+      let query = this.$route.query
+      if (query && query.page_num) {
+        this.page_num = query.page_num
+        this.query.offset = (this.page_num - 1) * this.query.limit
+      }
+      this.list()
     }
   },
   methods: {
@@ -156,7 +169,7 @@ export default {
         })
         return
       }
-      this.tableData = result.data.rows
+      this.tableData = result.data
     },
     async update_enable(status, data_id) {
       let response = await this.apis.achv_paper.update(
@@ -202,9 +215,23 @@ export default {
       this.$router.push({
         name: 'paperTrash'
       })
+    },
+    page_change(page_num) {
+      this.page_num = page_num
+      this.$router.push({
+        name: 'paperList',
+        query: { page_num: this.page_num }
+      })
     }
   },
   mounted() {
+    let query = this.$route.query
+    if (query && query.page_num) {
+      this.page_num = query.page_num
+      this.query.offset = (this.page_num - 1) * this.query.limit
+    }
+    this.table_height = document.body.offsetHeight - 170
+
     this.list()
   }
 }

@@ -17,4 +17,7 @@ export default {
   width: 100%;
   height: 100%;
 }
+.margin-top-10 {
+  margin-top: 10px;
+}
 </style>
