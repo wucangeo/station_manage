@@ -5,53 +5,64 @@
         <Icon type="compose"></Icon>
         论文信息
       </p>
-      <Form ref="dataAddForm" :model="formData" :label-width="150" style="width:700px">
+      <Form ref="dataAddForm" :model="formData" :label-width="150" :rules="rules" style="width:700px">
         <FormItem label="发表年度" prop="year">
-          {{formData.year}}
+          <Select v-model="formData.year">
+            <Option v-for="year in yearList" :value="year" :key="year">{{year}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="论文标题" prop="title">
-          {{formData.title}}
+          <Input v-model="formData.title" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="刊物名称" prop="journal">
-          {{formData.journal}}
+          <Input v-model="formData.journal" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="年,卷期,页码" prop="volume">
-          {{formData.volume}}
+          <Input v-model="formData.volume" placeholder="例如：2016,400(1):67-79"></Input>
         </FormItem>
         <FormItem label="标准刊号" prop="issue_number">
-          {{formData.issue_number}}
+          <Input v-model="formData.issue_number" placeholder="例如：0032-079X"></Input>
         </FormItem>
         <FormItem label="全部作者" prop="author">
-          {{formData.author}}
+          <Input v-model="formData.author" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="通讯作者" prop="co_author">
-          {{formData.co_author}}
+          <Input v-model="formData.co_author" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="摘要" prop="abstract">
-          {{formData.abstract}}
+          <Input v-model="formData.abstract" type="textarea" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem label="单位标注排名" prop="rank_depart">
-          {{formData.rank_depart}}
+          <Select v-model="formData.rank_depart">
+            <Option v-for="rank in rankList" :value="rank" :key="rank">{{rank}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="本单位首位作者排名" prop="rank_author">
-          {{formData.rank_author}}
+          <Select v-model="formData.rank_author">
+            <Option v-for="rank in rankList" :value="rank" :key="rank">{{rank}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="刊物级别" prop="journal_level">
-          {{formData.journal_level}}
+          <Select v-model="formData.journal_level">
+            <Option v-for="level in journal_level_list" :value="level" :key="level">{{level}}</Option>
+          </Select>
         </FormItem>
         <FormItem label="影响因子" prop="index">
-          {{formData.index}}
+          <InputNumber :max="100" :min="0" :step="0.1" v-model="formData.index"></InputNumber>
         </FormItem>
         <FormItem label="是否国际合作论文" prop="is_coop">
-          {{formData.is_coop===1?"是":"否"}}
+          <i-switch v-model="formData.is_coop" size="large" :true-value="1" :false-value="0">
+            <span slot="open">是</span>
+            <span slot="close">否</span>
+          </i-switch>
         </FormItem>
         <FormItem label="备注" prop="remark">
-          {{formData.remark}}
+          <Input v-model="formData.remark" type="textarea" placeholder="请输入..."></Input>
         </FormItem>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="edit">编辑</Button>
-          <Button type="ghost" @click="cancel" style="margin-left: 8px">返回</Button>
+          <Button type="primary" @click="update">确定</Button>
+          <Button type="ghost" @click="cancel" style="margin-left: 8px">取消</Button>
         </FormItem>
       </Form>
     </Card>
@@ -127,16 +138,38 @@ export default {
       }
       this.formData = result.data
     },
-    async edit() {
+    async update() {
+      let valid = await this.$refs.dataAddForm.validate()
+      if (!valid) {
+        return
+      }
+      let response = await this.apis.achv_paper.update(
+        this.formData,
+        this.data_id
+      )
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: result.msg,
+          duration: 3
+        })
+        return
+      } else {
+        this.$Message.success({
+          content: result.msg,
+          duration: 3
+        })
+      }
       //跳转至数据详情页
       this.$router.push({
-        name: 'paperEdit',
-        params: { data_id: this.data_id }
+        name: 'paperInfo',
+        params: { data_id: result.data.data_id }
       })
     },
     cancel() {
       this.$router.push({
-        name: 'paperList'
+        name: 'paperInfo',
+        params: { data_id: this.data_id }
       })
     }
   }

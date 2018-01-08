@@ -39,6 +39,7 @@ import imageViewView from '@/views/image/image-view.vue'
 import paperListView from '@/views/achv/paper/paper-list.vue'
 import paperInfoView from '@/views/achv/paper/paper-info.vue'
 import paperAddView from '@/views/achv/paper/paper-add.vue'
+import paperEditView from '@/views/achv/paper/paper-edit.vue'
 import paperTrashView from '@/views/achv/paper/paper-trash.vue'
 //专著
 import monographyListView from '@/views/achv/monography/monography-list.vue'
@@ -460,6 +461,12 @@ export const appRouter = [
             component: paperListView
           },
           {
+            path: 'trash',
+            name: 'paperTrash',
+            title: '回收站',
+            component: paperTrashView
+          },
+          {
             path: 'info/:data_id',
             name: 'paperInfo',
             title: '论文详情',
@@ -472,11 +479,11 @@ export const appRouter = [
             component: paperAddView
           },
           {
-            path: 'add',
-            name: 'paperTrash',
-            title: '回收站',
-            component: paperTrashView
-          }
+            path: 'edit/:data_id',
+            name: 'paperEdit',
+            title: '编辑论文',
+            component: paperEditView
+          },
         ]
       }, {
         path: 'index',

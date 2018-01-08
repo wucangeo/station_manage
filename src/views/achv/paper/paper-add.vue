@@ -91,7 +91,8 @@ export default {
         journal_level: 'SCI', //刊物级别：1SCI；2专著；3中文；4其他
         index: 0, //SCI/SSCI影响因子
         is_coop: 0, //是否为国际合作论文
-        remark: '' //备注
+        remark: '', //备注
+        file_path: '' //文件路径
       },
       yearList: [],
       rankList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
