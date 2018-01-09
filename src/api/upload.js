@@ -8,7 +8,7 @@ axios.defaults.headers.patch['Content-Type'] = 'application/json'
 let salt = 'bnu'
 
 module.exports = {
-  list: async function(query) {
+  list: async function (query) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: '/upload',
@@ -17,7 +17,7 @@ module.exports = {
       params: query
     })
   },
-  get: async function(data_id) {
+  get: async function (data_id) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: `/upload/${data_id}`,
@@ -25,7 +25,7 @@ module.exports = {
       headers: { 'x-access-token': access_token }
     })
   },
-  create: function(item) {
+  create: function (item) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: `/upload`,
@@ -34,7 +34,7 @@ module.exports = {
       data: item
     })
   },
-  update: function(updates, data_id) {
+  update: function (updates, data_id) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: `/upload/${data_id}`,
@@ -43,7 +43,7 @@ module.exports = {
       data: updates
     })
   },
-  delete: function(ids) {
+  delete: function (ids) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: '/upload',
@@ -52,7 +52,7 @@ module.exports = {
       data: { ids: ids }
     })
   },
-  upload: function(item) {
+  upload: function (item) {
     let access_token = Cookies.get('access_token')
     return axios({
       url: '/upload/upload',
@@ -60,6 +60,16 @@ module.exports = {
         'x-access-token': access_token,
         'Content-Type': 'multipart/form-data'
       },
+      method: 'post',
+      data: item
+    })
+  },
+  download: function (item) {
+    debugger
+    let access_token = Cookies.get('access_token')
+    return axios({
+      url: '/upload/download',
+      headers: { 'x-access-token': access_token },
       method: 'post',
       data: item
     })

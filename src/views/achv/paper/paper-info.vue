@@ -48,6 +48,14 @@
         <FormItem label="备注" prop="remark">
           {{formData.remark}}
         </FormItem>
+        <FormItem label="论文附件" prop="file_path">
+          <a :href="downloadPath" v-if="formData.file_path" target="_blank">
+            <Button>下载</Button>
+          </a>
+          <span v-if="!formData.file_path">无 </span>
+          <Upload ref="fileUploader" :action="uploadURL" :on-success="uploadSuccess" :on-error="uploadError" :headers="uploadHeader" :data="uploadData">
+            <Button type="ghost" icon="ios-cloud-upload-outline">点击上传论文</Button>
+          </Upload>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="edit">编辑</Button>
@@ -58,6 +66,8 @@
   </div>
 </template>
 <script>
+import Cookies from 'js-cookie'
+let access_token = Cookies.get('access_token')
 export default {
   data() {
     return {
@@ -86,7 +96,17 @@ export default {
       },
       yearList: [],
       rankList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      journal_level_list: ['SCI', '中文', '其他']
+      journal_level_list: ['SCI', '中文', '其他'],
+      uploadHeader: { 'x-access-token': access_token },
+      uploadData: { type: 1 }
+    }
+  },
+  computed: {
+    downloadPath: function() {
+      return CONFIG.SERVER_URL + this.formData.file_path
+    },
+    uploadURL: function() {
+      return CONFIG.API_V1 + '/upload/upload'
     }
   },
   mounted() {
@@ -137,6 +157,44 @@ export default {
     cancel() {
       this.$router.push({
         name: 'paperList'
+      })
+    },
+    async uploadSuccess(data) {
+      if (data.code === 0) {
+        this.$Message.error({
+          content: '上传失败，请刷新重试。',
+          duration: 3
+        })
+        return
+      }
+      let fileInfo = data.data
+      let update_item = {
+        file_path: fileInfo.path
+      }
+      this.$refs.fileUploader.clearFiles()
+      let response = await this.apis.achv_paper.update(
+        update_item,
+        this.data_id
+      )
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: '上传文件失败！',
+          duration: 3
+        })
+        return
+      } else {
+        this.$Message.success({
+          content: '上传文件成功！',
+          duration: 3
+        })
+        this.get(this.data_id)
+      }
+    },
+    uploadError(err) {
+      this.$Message.error({
+        content: err,
+        duration: 1.5
       })
     }
   }

@@ -59,7 +59,6 @@
         <FormItem label="备注" prop="remark">
           <Input v-model="formData.remark" type="textarea" placeholder="请输入..."></Input>
         </FormItem>
-        </FormItem>
         <FormItem>
           <Button type="primary" @click="update">确定</Button>
           <Button type="ghost" @click="cancel" style="margin-left: 8px">取消</Button>
