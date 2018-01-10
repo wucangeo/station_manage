@@ -5,7 +5,7 @@
         <Icon type="compose"></Icon>
         专著信息
       </p>
-      <Form ref="dataAddForm" :model="formData" :label-width="150" :rules="rules" style="width:700px">
+      <Form ref="dataAddForm" :model="formData" :label-width="200" :rules="rules" style="width:700px">
         <FormItem label="发表年度" prop="year">
           <Select v-model="formData.year">
             <Option v-for="year in yearList" :value="year" :key="year">{{year}}</Option>
@@ -56,7 +56,7 @@
           <Input v-model="formData.co_author" placeholder="请输入..."></Input>
         </FormItem>
         <FormItem>
-          <Button type="primary" @click="create">确定</Button>
+          <Button type="primary" @click="update">确定</Button>
           <Button type="ghost" @click="cancel" style="margin-left: 8px">取消</Button>
         </FormItem>
       </Form>
@@ -69,9 +69,10 @@ export default {
     return {
       rules: {
         title: [{ required: true, message: '论文标题不能为空', trigger: 'blur' }],
-        journal: [{ required: true, message: '刊物名称不能为空', trigger: 'blur' }],
+        press: [{ required: true, message: '出版社不能为空', trigger: 'blur' }],
         author: [{ required: true, message: '全部作者不能为空', trigger: 'blur' }]
       },
+      data_id: 0,
       formData: {
         year: 2018, //发表年份
         title: '', //标题
@@ -94,20 +95,65 @@ export default {
     }
   },
   mounted() {
+    //处理年份
     let now = new Date()
     let curYear = now.getFullYear()
     for (let year = curYear; year >= 1950; year--) {
       this.yearList.push(year)
     }
     this.formData.year = curYear
+    //获取待编辑数据
+    let params = this.$route.params
+    if (!params || !params.data_id) {
+      this.$Message.error({
+        content: '参数错误，即将跳转至首页。',
+        duration: 1.5
+      })
+      setTimeout(() => {
+        this.$router.push({
+          name: `monographyList`
+        })
+      }, 1500)
+      return
+    }
+    this.data_id = parseInt(params.data_id)
+    this.get(this.data_id)
   },
   methods: {
-    async create() {
+    async get(data_id) {
+      let response = await this.apis.achv_monography.get(data_id)
+      let result = response.data
+      if (result.code === 0) {
+        this.$Message.error({
+          content: result.msg,
+          duration: 1.5
+        })
+        return
+      }
+      this.formData = result.data
+    },
+    async update() {
       let valid = await this.$refs.dataAddForm.validate()
       if (!valid) {
         return
       }
-      let response = await this.apis.achv_monography.create(this.formData)
+      //参数类型转换
+      let formData = this.formData
+      formData.year = formData.year || 0
+      formData.word_count = formData.word_count || 0
+      formData.rank_depart = formData.rank_depart || 0
+      formData.rank_author = formData.rank_author || 0
+
+      formData.pub_type = formData.pub_type || ''
+      formData.categories = formData.categories || ''
+      formData.book_number = formData.book_number || ''
+      formData.pub_date = formData.pub_date || ''
+      formData.co_author = formData.co_author || ''
+
+      let response = await this.apis.achv_monography.update(
+        formData,
+        this.data_id
+      )
       let result = response.data
       if (result.code === 0) {
         this.$Message.error({
@@ -129,7 +175,8 @@ export default {
     },
     cancel() {
       this.$router.push({
-        name: 'monographyList'
+        name: 'monographyInfo',
+        params: { data_id: this.data_id }
       })
     }
   }

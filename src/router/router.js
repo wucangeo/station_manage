@@ -45,6 +45,8 @@ import paperTrashView from '@/views/achv/paper/paper-trash.vue'
 import monographyListView from '@/views/achv/monography/monography-list.vue'
 import monographyInfoView from '@/views/achv/monography/monography-info.vue'
 import monographyAddView from '@/views/achv/monography/monography-add.vue'
+import monographyEditView from '@/views/achv/monography/monography-edit.vue'
+import monographyTrashView from '@/views/achv/monography/monography-trash.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -486,7 +488,7 @@ export const appRouter = [
           },
         ]
       }, {
-        path: 'index',
+        path: 'monography',
         name: 'monographyIndex',
         title: '专著',
         redirect: { name: 'monographyList' },
@@ -499,6 +501,12 @@ export const appRouter = [
             component: monographyListView
           },
           {
+            path: 'trash',
+            name: 'monographyTrash',
+            title: '回收站',
+            component: monographyTrashView
+          },
+          {
             path: 'info/:data_id',
             name: 'monographyInfo',
             title: '专著信息',
@@ -509,7 +517,13 @@ export const appRouter = [
             name: 'monographyAdd',
             title: '添加专著',
             component: monographyAddView
-          }
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'monographyEdit',
+            title: '编辑论文',
+            component: monographyEditView
+          },
         ]
       }
     ]

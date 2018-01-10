@@ -2,22 +2,19 @@
   <div>
     <Row type="flex" justify="space-between">
       <Col span="18">
-      <Input v-model="query.keys.title" icon="search" placeholder="请输入搜索关键词..." style="width: 200px" />
+      <Input v-model="query.keys.title" icon="search" placeholder="请输入关键词搜索..." style="width: 200px" />
       </Col>
       <Col span="6">
       <Row type="flex" justify="end">
         <span>
-          <Button type="warning" size="small" @click="trash_data" icon="trash-b">回收站</Button>
-          <Button type="primary" size="small" @click="add_data" icon="plus">添加</Button>
+          <Button type="error" size="small" @click="remove" icon="trash-b">彻底删除</Button>
+          <Button type="primary" size="small" @click="list_data" icon="ios-arrow-back">返回</Button>
         </span>
       </Row>
       </Col>
     </Row>
-    <Row class="margin-top-10">
-      <Table border :columns="tableColumns" :data="tableData.rows" :height="table_height"></Table>
-    </Row>
-    <Row class="margin-top-10">
-      <Page :total="tableData.count" :page-size="query.limit" @on-change="page_change" show-elevator show-total></Page>
+    <Row class="margin-top-10 searchable-table-con1">
+      <Table border :columns="tableColumns" @on-select="onTableSelect" :data="tableData"></Table>
     </Row>
   </div>
 
@@ -25,23 +22,26 @@
 
 <script>
 export default {
-  name: 'monography',
+  name: 'paper',
   data() {
     return {
       delayTimer: null, //用于搜索延迟
-      page_num: 1,
-      table_height: 600, //表格高度
       query: {
         keys: {
           title: null,
-          enable: 1
+          enable: 0
         },
         offset: 0,
-        limit: 20,
+        limit: 10,
         order: 0,
         order_by: 'data_id'
       },
       tableColumns: [
+        {
+          type: 'selection',
+          width: 60,
+          align: 'center'
+        },
         {
           key: 'data_id',
           width: 60,
@@ -81,7 +81,7 @@ export default {
         {
           title: '操作',
           key: 'action',
-          width: 140,
+          width: 130,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -107,41 +107,42 @@ export default {
                 '查看'
               ),
               h(
-                'Poptip',
+                'Button',
                 {
                   props: {
-                    confirm: true,
-                    title: '您确认删除这条内容吗？',
-                    width: 200,
-                    placement: 'left'
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
                   },
                   on: {
-                    'on-ok': () => {
-                      this.update_enable(0, params.row.data_id)
+                    click: () => {
+                      this.update_enable(1, params.row.data_id)
                     }
                   }
                 },
-                [
-                  h(
-                    'Button',
-                    {
-                      style: {
-                        margin: '5px'
-                      },
-                      props: {
-                        type: 'error',
-                        size: 'small'
-                      }
-                    },
-                    '删除'
-                  )
-                ]
-              )
+                '还原'
+              ),
+              h('Poptip', {
+                props: {
+                  confirm: true,
+                  title: '您确认要彻底删除这条内容吗？',
+                  width: 200,
+                  placement: 'left'
+                },
+                on: {
+                  'on-ok': () => {
+                    this.remove([params.row.data_id])
+                  }
+                }
+              })
             ])
           }
         }
       ],
-      tableData: []
+      tableData: [],
+      ids2Remove: []
     }
   },
   watch: {
@@ -152,14 +153,6 @@ export default {
       this.delayTimer = setTimeout(() => {
         this.list()
       }, 500)
-    },
-    $route(to, from) {
-      let query = this.$route.query
-      if (query && query.page_num) {
-        this.page_num = query.page_num
-        this.query.offset = (this.page_num - 1) * this.query.limit
-      }
-      this.list()
     }
   },
   methods: {
@@ -173,7 +166,7 @@ export default {
         })
         return
       }
-      this.tableData = result.data
+      this.tableData = result.data.rows
     },
     async update_enable(status, data_id) {
       let response = await this.apis.achv_monography.update(
@@ -194,8 +187,16 @@ export default {
       }
       this.list()
     },
-    async remove(data_id) {
-      let response = await this.apis.achv_monography.delete([data_id])
+    async remove() {
+      let ids = this.ids2Remove
+      if (ids.length === 0) {
+        this.$Message.warning({
+          content: '未选中任何内容。',
+          duration: 1.5
+        })
+        return
+      }
+      let response = await this.apis.achv_monography.delete(ids)
       let result = response.data
       if (result.code === 1) {
         this.$Message.success({
@@ -210,32 +211,21 @@ export default {
       }
       this.list()
     },
-    add_data() {
+    list_data() {
       this.$router.push({
-        name: 'monographyAdd'
+        name: 'monographyList'
       })
     },
-    trash_data() {
-      this.$router.push({
-        name: 'monographyTrash'
-      })
-    },
-    page_change(page_num) {
-      this.page_num = page_num
-      this.$router.push({
-        name: 'monographyList',
-        query: { page_num: this.page_num }
-      })
+    onTableSelect(selection, row) {
+      this.ids2Remove = []
+      if (Array.isArray(selection)) {
+        for (let sel of selection) {
+          this.ids2Remove.push(sel.data_id)
+        }
+      }
     }
   },
   mounted() {
-    let query = this.$route.query
-    if (query && query.page_num) {
-      this.page_num = query.page_num
-      this.query.offset = (this.page_num - 1) * this.query.limit
-    }
-    this.table_height = document.body.offsetHeight - 170
-
     this.list()
   }
 }
