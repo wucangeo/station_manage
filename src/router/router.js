@@ -47,6 +47,12 @@ import monographyInfoView from '@/views/achv/monography/monography-info.vue'
 import monographyAddView from '@/views/achv/monography/monography-add.vue'
 import monographyEditView from '@/views/achv/monography/monography-edit.vue'
 import monographyTrashView from '@/views/achv/monography/monography-trash.vue'
+//专著
+import patentListView from '@/views/achv/patent/patent-list.vue'
+import patentInfoView from '@/views/achv/patent/patent-info.vue'
+import patentAddView from '@/views/achv/patent/patent-add.vue'
+import patentEditView from '@/views/achv/patent/patent-edit.vue'
+import patentTrashView from '@/views/achv/patent/patent-trash.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -521,8 +527,46 @@ export const appRouter = [
           {
             path: 'edit/:data_id',
             name: 'monographyEdit',
-            title: '编辑论文',
+            title: '编辑专著',
             component: monographyEditView
+          },
+        ]
+      }, {
+        path: 'patent',
+        name: 'patentIndex',
+        title: '专利',
+        redirect: { name: 'patentList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'patentList',
+            title: '全部专利',
+            component: patentListView
+          },
+          {
+            path: 'trash',
+            name: 'patentTrash',
+            title: '回收站',
+            component: patentTrashView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'patentInfo',
+            title: '专利信息',
+            component: patentInfoView
+          },
+          {
+            path: 'add',
+            name: 'patentAdd',
+            title: '添加专利',
+            component: patentAddView
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'patentEdit',
+            title: '编辑专利',
+            component: patentEditView
           },
         ]
       }
