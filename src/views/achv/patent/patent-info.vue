@@ -3,52 +3,55 @@
     <Card>
       <p slot="title">
         <Icon type="compose"></Icon>
-        专著信息
+        专利信息
       </p>
       <Form ref="dataAddForm" :model="formData" :label-width="200" style="width:700px">
         <FormItem label="发表年度" prop="year">
           {{formData.year}}
         </FormItem>
-        <FormItem label="著作名称" prop="title">
+        <FormItem label="专利名称" prop="title">
           {{formData.title}}
         </FormItem>
-        <FormItem label="出版类型" prop="pub_type">
-          {{formData.pub_type}}
+        <FormItem label="申请号" prop="apply_code">
+          {{formData.apply_code}}
         </FormItem>
-        <FormItem label="著作类别" prop="categories">
-          {{formData.categories}}
+        <FormItem label="申请日期" prop="apply_date">
+          {{formData.apply_date|getCNDate}}
         </FormItem>
-        <FormItem label="总字数" prop="word_count">
-          {{formData.word_count}}
+        <FormItem label="专利号" prop="patent_no">
+          {{formData.patent_no}}
         </FormItem>
-        <FormItem label="出版社" prop="press">
-          {{formData.press}}
+        <FormItem label="授权日期" prop="auth_date">
+          {{formData.auth_date|getCNDate}}
         </FormItem>
-        <FormItem label="书号" prop="book_number">
-          {{formData.book_number}}
+        <FormItem label="专利状态" prop="patent_status">
+          {{formData.patent_status}}
         </FormItem>
-        <FormItem label="出版时间" prop="pub_date">
-          {{formData.pub_date}}
+        <FormItem label="专利类别" prop="patent_type">
+          {{formData.patent_type}}
         </FormItem>
-        <FormItem label="单位排名" prop="rank_depart">
-          {{formData.rank_depart}}
+        <FormItem label="国别/专利组织" prop="country_org">
+          {{formData.country_org}}
         </FormItem>
-        <FormItem label="全部封面作者" prop="author">
+        <FormItem label="专利权人" prop="author">
           {{formData.author}}
         </FormItem>
-        <FormItem label="本单位首位封面作者排名" prop="rank_author">
-          {{formData.rank_author}}
+        <FormItem label="本台站所属单位排名" prop="rank_depart">
+          {{formData.rank_depart}}
         </FormItem>
-        <FormItem label="章节作者" prop="co_author">
+        <FormItem label="全部发明人" prop="co_author">
           {{formData.co_author}}
         </FormItem>
-        <FormItem label="著作首页、版权页及章节作者证明页电子版" prop="certified_path">
-          <a :href="downloadPath" v-if="formData.certified_path" target="_blank">
+        <FormItem label="本单位首位发明人排序" prop="rank_author">
+          {{formData.rank_author}}
+        </FormItem>
+        <FormItem label="证明材料电子版" prop="file_path">
+          <a :href="downloadPath" v-if="formData.file_path" target="_blank">
             <Button>下载</Button>
           </a>
-          <span v-if="!formData.certified_path">无 </span>
+          <span v-if="!formData.file_path">无 </span>
           <Upload ref="fileUploader" :action="uploadURL" :on-success="uploadSuccess" :on-error="uploadError" :headers="uploadHeader" :data="uploadData">
-            <Button type="ghost" icon="ios-cloud-upload-outline">点击上传论文</Button>
+            <Button type="ghost" icon="ios-cloud-upload-outline">点击上传材料</Button>
           </Upload>
         </FormItem>
         <FormItem>
@@ -67,27 +70,28 @@ export default {
     return {
       data_id: 0,
       formData: {
-        year: 2018, //发表年份
-        title: '', //标题
-        pub_type: '', // 出版类别:1国内出版-中文;2?
-        categories: '', // 著作类别：1专著；2？
-        word_count: 0, //'总字数（千）',
-        press: '', // 出版社
-        book_number: '', // 书号（如 978-7-03-045836-0)
-        pub_date: '', // 出版时间
-        rank_depart: 0, //   单位排名
-        author: '', // 全部封面作者
-        rank_author: 0, // 本单位首位作者排名
-        co_author: '', // 章节作者
-        certified_path: '' // 著作首页、版权页及章节作者证明页电子版
+        year: 2018, // '申请/授权年度',
+        title: '', // '专利名称',
+        apply_code: '', // '申请号',
+        apply_date: '', // '申请日期',
+        patent_no: '', // '专利号',
+        auth_date: '', // '授权日期',
+        patent_status: '授权', // '专利状态 授权/申请',
+        patent_type: '实用新型', // '专利类别：实用新型',
+        country_org: '', // '国别/专利组织',
+        author: '', // '专利权人',
+        rank_depart: 0, // '本台站所属单位排名',
+        co_author: '', // '全部发明人',
+        rank_author: 0, // '本单位首位发明人排序',
+        file_path: '' // '证明材料电子版',
       },
       uploadHeader: { 'x-access-token': access_token },
-      uploadData: { type: 2 }
+      uploadData: { type: 3 }
     }
   },
   computed: {
     downloadPath: function() {
-      return CONFIG.SERVER_URL + this.formData.certified_path
+      return CONFIG.SERVER_URL + this.formData.file_path
     },
     uploadURL: function() {
       return CONFIG.API_V1 + '/upload/upload'
@@ -103,7 +107,7 @@ export default {
       })
       setTimeout(() => {
         this.$router.push({
-          name: `monographyList`
+          name: `patentList`
         })
       }, 1500)
       return
@@ -113,7 +117,7 @@ export default {
   },
   methods: {
     async get(data_id) {
-      let response = await this.apis.achv_monography.get(data_id)
+      let response = await this.apis.achv_patent.get(data_id)
       let result = response.data
       if (result.code === 0) {
         this.$Message.error({
@@ -127,13 +131,13 @@ export default {
     async edit() {
       //跳转至数据详情页
       this.$router.push({
-        name: 'monographyEdit',
+        name: 'patentEdit',
         params: { data_id: this.data_id }
       })
     },
     cancel() {
       this.$router.push({
-        name: 'monographyList'
+        name: 'patentList'
       })
     },
     async uploadSuccess(data) {
@@ -146,10 +150,10 @@ export default {
       }
       let fileInfo = data.data
       let update_item = {
-        certified_path: fileInfo.path
+        file_path: fileInfo.path
       }
       this.$refs.fileUploader.clearFiles()
-      let response = await this.apis.achv_monography.update(
+      let response = await this.apis.achv_patent.update(
         update_item,
         this.data_id
       )

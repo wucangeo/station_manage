@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'monography',
+  name: 'patent',
   data() {
     return {
       delayTimer: null, //用于搜索延迟
@@ -54,28 +54,28 @@ export default {
           align: 'center'
         },
         {
-          title: '著作名称',
+          title: '专利名称',
           key: 'title',
           render: (h, params) => {
             return h('div', [h('strong', params.row.title)])
           }
         },
         {
-          title: '出版类型',
-          key: 'pub_type',
+          title: '专利号',
+          key: 'patent_no',
           width: 150,
           align: 'center'
         },
         {
-          title: '出版社',
-          key: 'press',
-          width: 180,
+          title: '专利类别',
+          key: 'patent_type',
+          width: 100,
           align: 'center'
         },
         {
-          title: '作者',
+          title: '发明人',
           key: 'author',
-          width: 130,
+          width: 180,
           align: 'center'
         },
         {
@@ -98,7 +98,7 @@ export default {
                   on: {
                     click: () => {
                       this.$router.push({
-                        name: 'monographyInfo',
+                        name: 'patentInfo',
                         params: { data_id: params.row.data_id }
                       })
                     }
@@ -164,7 +164,7 @@ export default {
   },
   methods: {
     async list() {
-      let response = await this.apis.achv_monography.list(this.query)
+      let response = await this.apis.achv_patent.list(this.query)
       let result = response.data
       if (result.code === 0) {
         this.$Message.error({
@@ -176,7 +176,7 @@ export default {
       this.tableData = result.data
     },
     async update_enable(status, data_id) {
-      let response = await this.apis.achv_monography.update(
+      let response = await this.apis.achv_patent.update(
         { enable: status },
         data_id
       )
@@ -195,7 +195,7 @@ export default {
       this.list()
     },
     async remove(data_id) {
-      let response = await this.apis.achv_monography.delete([data_id])
+      let response = await this.apis.achv_patent.delete([data_id])
       let result = response.data
       if (result.code === 1) {
         this.$Message.success({
@@ -212,18 +212,18 @@ export default {
     },
     add_data() {
       this.$router.push({
-        name: 'monographyAdd'
+        name: 'patentAdd'
       })
     },
     trash_data() {
       this.$router.push({
-        name: 'monographyTrash'
+        name: 'patentTrash'
       })
     },
     page_change(page_num) {
       this.page_num = page_num
       this.$router.push({
-        name: 'monographyList',
+        name: 'patentList',
         query: { page_num: this.page_num }
       })
     }
