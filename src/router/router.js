@@ -53,6 +53,12 @@ import patentInfoView from '@/views/achv/patent/patent-info.vue'
 import patentAddView from '@/views/achv/patent/patent-add.vue'
 import patentEditView from '@/views/achv/patent/patent-edit.vue'
 import patentTrashView from '@/views/achv/patent/patent-trash.vue'
+//专著
+import awardsListView from '@/views/achv/awards/awards-list.vue'
+import awardsInfoView from '@/views/achv/awards/awards-info.vue'
+import awardsAddView from '@/views/achv/awards/awards-add.vue'
+import awardsEditView from '@/views/achv/awards/awards-edit.vue'
+import awardsTrashView from '@/views/achv/awards/awards-trash.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -567,6 +573,44 @@ export const appRouter = [
             name: 'patentEdit',
             title: '编辑专利',
             component: patentEditView
+          },
+        ]
+      }, {
+        path: 'awards',
+        name: 'awardsIndex',
+        title: '奖项',
+        redirect: { name: 'awardsList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'awardsList',
+            title: '全部奖项',
+            component: awardsListView
+          },
+          {
+            path: 'trash',
+            name: 'awardsTrash',
+            title: '回收站',
+            component: awardsTrashView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'awardsInfo',
+            title: '奖项信息',
+            component: awardsInfoView
+          },
+          {
+            path: 'add',
+            name: 'awardsAdd',
+            title: '添加奖项',
+            component: awardsAddView
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'awardsEdit',
+            title: '编辑奖项',
+            component: awardsEditView
           },
         ]
       }
