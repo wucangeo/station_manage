@@ -59,6 +59,12 @@ import awardsInfoView from '@/views/achv/awards/awards-info.vue'
 import awardsAddView from '@/views/achv/awards/awards-add.vue'
 import awardsEditView from '@/views/achv/awards/awards-edit.vue'
 import awardsTrashView from '@/views/achv/awards/awards-trash.vue'
+//项目
+import projectListView from '@/views/project/project-list.vue'
+import projectInfoView from '@/views/project/project-info.vue'
+import projectAddView from '@/views/project/project-add.vue'
+import projectEditView from '@/views/project/project-edit.vue'
+import projectTrashView from '@/views/project/project-trash.vue'
 
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
@@ -615,6 +621,244 @@ export const appRouter = [
         ]
       }
     ]
+  },
+  {
+    path: '/project',
+    icon: 'ios-paper',
+    title: '科研项目',
+    name: 'project',
+    redirect: { name: 'kjbProject' },
+    component: MainView,
+    children: [
+      {
+        path: 'kjb',
+        name: 'kjbProject',
+        title: '科技部项目',
+        redirect: { name: 'kjbProjectList', params: { type: 1 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'kjbProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'kjbProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'kjbProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'kjbProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'kjbProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }, {
+        path: 'jjw',
+        name: 'jjwProject',
+        title: '基金委项目',
+        redirect: { name: 'jjwProjectList', params: { type: 2 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'jjwProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'jjwProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'jjwProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'jjwProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'jjwProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }, {
+        path: 'zky',
+        name: 'zkyProject',
+        title: '中科院项目',
+        redirect: { name: 'zkyProjectList', params: { type: 3 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'zkyProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'zkyProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'zkyProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'zkyProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'zkyProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }, {
+        path: 'qtbw',
+        name: 'qtbwProject',
+        title: '其他部委项目',
+        redirect: { name: 'qtbwProjectList', params: { type: 4 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'qtbwProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'qtbwProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'qtbwProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'qtbwProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'qtbwProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }, {
+        path: 'df',
+        name: 'dfProject',
+        title: '地方项目',
+        redirect: { name: 'dfProjectList', params: { type: 5 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'dfProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'dfProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'dfProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'dfProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'dfProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }, {
+        path: 'qt',
+        name: 'qtProject',
+        title: '其他项目',
+        redirect: { name: 'qtProjectList', params: { type: 6 } },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: ':type/list',
+            name: 'qtProjectList',
+            title: '列表',
+            component: projectListView
+          },
+          {
+            path: ':type/trash',
+            name: 'qtProjectTrash',
+            title: '回收站',
+            component: projectTrashView
+          },
+          {
+            path: ':type/info/:data_id',
+            name: 'qtProjectInfo',
+            title: '查看',
+            component: projectInfoView
+          },
+          {
+            path: ':type/edit/:data_id',
+            name: 'qtProjectEdit',
+            title: '编辑',
+            component: projectEditView
+          },
+          {
+            path: ':type/add',
+            name: 'qtProjectAdd',
+            title: '添加',
+            component: projectAddView
+          }
+        ]
+      }]
   },
   {
     path: '/thematic',

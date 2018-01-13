@@ -89,4 +89,14 @@ filter.getAbsolutePath = function (relativePath) {
   return CONFIG.SERVER_URL + relativePath;
 }
 
+filter.getENDateByObj = function (date) {
+  if (typeof (date) != 'object') {
+    return false;
+  }
+  let year = date.getFullYear();
+  let mongth = date.getMonth() + 1;
+  let day = date.getDate();
+  return year + "-" + mongth.toString().padStart(2, '0') + "-" + day.toString().padStart(2, '0')
+}
+
 export default filter
