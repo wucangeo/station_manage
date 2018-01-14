@@ -16,7 +16,7 @@ fs.open("./build/env.js", "w", function (err, fd) {
 
 module.exports = merge(webpackBaseConfig, {
   output: {
-    publicPath: "http://47.93.225.139:8080/dist/",
+    publicPath: "http://47.93.225.139:8080/manage/dist/",
     filename: "[name].[hash].js",
     chunkFilename: "[name].[hash].chunk.js"
   },
