@@ -30,7 +30,7 @@ export default {
   methods: {
     async get() {
       let query = {
-        type: 2, //类型为2，历史沿革
+        keys: { type: 2 }, //类型为2，历史沿革
         limit: 1
       }
       let response = await this.apis.station.list(query)

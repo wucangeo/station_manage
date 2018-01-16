@@ -96,7 +96,7 @@ export default {
   methods: {
     async get() {
       let query = {
-        type: 1
+        keys: { type: 1 }
       }
       let response = await this.apis.station.list(query)
       let result = response.data

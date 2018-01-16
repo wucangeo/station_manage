@@ -27,9 +27,9 @@ export default {
       delayTimer: null, //用于搜索延迟
       query: {
         keys: {
+          type: 3, //类型为3，规章制度
           title: null
         },
-        type: 3, //类型为3，规章制度
         offset: 0,
         limit: 10,
         order: 0,
