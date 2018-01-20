@@ -74,120 +74,137 @@ export default {
   data() {
     return {
       rules: {
-        title: [{ required: true, message: '获奖项目名称不能为空', trigger: 'blur' }],
-        author: [{ required: true, message: '获奖单位不能为空', trigger: 'blur' }]
+        title: [
+          { required: true, message: "获奖项目名称不能为空", trigger: "blur" }
+        ],
+        author: [
+          { required: true, message: "获奖单位不能为空", trigger: "blur" }
+        ]
       },
       data_id: 0,
       formData: {
         year: 1, //'授予年度',
-        title: '', //'获奖项目名称',
-        awards_type: '', //'奖项类别',
-        awards_class: '', //'获奖等级',
-        awards_level: '', //'获奖级别',
-        awards_depart: '', //'设奖单位',
-        awards_year: '', //'获奖年份',
-        awards_oneorgroup: '团体', ///个人奖项',
-        author: '', //'全部完成单位',
+        title: "", //'获奖项目名称',
+        awards_type: "", //'奖项类别',
+        awards_class: "", //'获奖等级',
+        awards_level: "", //'获奖级别',
+        awards_depart: "", //'设奖单位',
+        awards_year: "", //'获奖年份',
+        awards_oneorgroup: "团体", ///个人奖项',
+        author: "", //'全部完成单位',
         rank_depart: 1, //'本单位排名',
-        co_author: '', //'全部完成人',
+        co_author: "", //'全部完成人',
         rank_author: 1, //'本单位首位完成人排名',
-        remark: '', //'备注',
-        file_path: '' //'证明材料电子版',
+        remark: "", //'备注',
+        file_path: "" //'证明材料电子版',
       },
       yearList: [],
       rankList: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 0],
-      awards_type_list: ['社会科技奖', '	国家自然科学奖', '国家科学技术进步奖', '其他'],
-      awards_class_list: ['特等奖', '一等奖', '二等奖', '三等奖', ' 其他'],
-      awards_level_list: ['国家', '部委', '研究所（高校）', '中科院', '升级', ' 其他'],
-      awards_oneorgroup_list: ['个人', '团体']
-    }
+      awards_type_list: [
+        "社会科技奖",
+        "	国家自然科学奖",
+        "国家科学技术进步奖",
+        "其他"
+      ],
+      awards_class_list: ["特等奖", "一等奖", "二等奖", "三等奖", " 其他"],
+      awards_level_list: [
+        "国家",
+        "部委",
+        "省级",
+        "研究所（高校）",
+        "中科院",
+        "升级",
+        " 其他"
+      ],
+      awards_oneorgroup_list: ["个人", "团体"]
+    };
   },
   mounted() {
     //处理年份
-    let now = new Date()
-    let curYear = now.getFullYear()
+    let now = new Date();
+    let curYear = now.getFullYear();
     for (let year = curYear; year >= 1950; year--) {
-      this.yearList.push(year)
+      this.yearList.push(year);
     }
-    this.formData.year = curYear
+    this.formData.year = curYear;
     //获取待编辑数据
-    let params = this.$route.params
+    let params = this.$route.params;
     if (!params || !params.data_id) {
       this.$Message.error({
-        content: '参数错误，即将跳转至首页。',
+        content: "参数错误，即将跳转至首页。",
         duration: 1.5
-      })
+      });
       setTimeout(() => {
         this.$router.push({
           name: `awardsList`
-        })
-      }, 1500)
-      return
+        });
+      }, 1500);
+      return;
     }
-    this.data_id = parseInt(params.data_id)
-    this.get(this.data_id)
+    this.data_id = parseInt(params.data_id);
+    this.get(this.data_id);
   },
   methods: {
     async get(data_id) {
-      let response = await this.apis.achv_awards.get(data_id)
-      let result = response.data
+      let response = await this.apis.achv_awards.get(data_id);
+      let result = response.data;
       if (result.code === 0) {
         this.$Message.error({
           content: result.msg,
           duration: 1.5
-        })
-        return
+        });
+        return;
       }
-      this.formData = result.data
+      this.formData = result.data;
     },
     async update() {
-      let valid = await this.$refs.dataAddForm.validate()
+      let valid = await this.$refs.dataAddForm.validate();
       if (!valid) {
-        return
+        return;
       }
       //参数类型转换
-      let formData = this.formData
-      formData.year = formData.year || 0
-      formData.awards_year = formData.awards_year || 0
-      formData.rank_depart = formData.rank_depart || 0
-      formData.rank_author = formData.rank_author || 0
+      let formData = this.formData;
+      formData.year = formData.year || 0;
+      formData.awards_year = parseInt(formData.awards_year) || 0;
+      formData.rank_depart = parseInt(formData.rank_depart) || 0;
+      formData.rank_author = parseInt(formData.rank_author) || 0;
 
-      formData.awards_type = formData.awards_type || ''
-      formData.awards_class = formData.awards_class || ''
-      formData.awards_level = formData.awards_level || ''
-      formData.awards_depart = formData.awards_depart || ''
-      formData.awards_oneorgroup = formData.awards_oneorgroup || ''
-      formData.author = formData.author || ''
-      formData.co_author = formData.co_author || ''
-      formData.remark = formData.remark || ''
-      formData.file_path = formData.file_path || ''
+      formData.awards_type = formData.awards_type || "";
+      formData.awards_class = formData.awards_class || "";
+      formData.awards_level = formData.awards_level || "";
+      formData.awards_depart = formData.awards_depart || "";
+      formData.awards_oneorgroup = formData.awards_oneorgroup || "";
+      formData.author = formData.author || "";
+      formData.co_author = formData.co_author || "";
+      formData.remark = formData.remark || "";
+      formData.file_path = formData.file_path || "";
 
-      let response = await this.apis.achv_awards.update(formData, this.data_id)
-      let result = response.data
+      let response = await this.apis.achv_awards.update(formData, this.data_id);
+      let result = response.data;
       if (result.code === 0) {
         this.$Message.error({
           content: result.msg,
           duration: 3
-        })
-        return
+        });
+        return;
       } else {
         this.$Message.success({
           content: result.msg,
           duration: 3
-        })
+        });
       }
       //跳转至数据详情页
       this.$router.push({
-        name: 'awardsInfo',
+        name: "awardsInfo",
         params: { data_id: result.data.data_id }
-      })
+      });
     },
     cancel() {
       this.$router.push({
-        name: 'awardsInfo',
+        name: "awardsInfo",
         params: { data_id: this.data_id }
-      })
+      });
     }
   }
-}
+};
 </script>
