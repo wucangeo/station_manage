@@ -112,13 +112,24 @@ export default {
         email: ''
       },
       rules: {
-        username: [{ required: true, message: '账号不能为空', trigger: 'blur' }],
-        password: [{ required: true, message: '密码不能为空', trigger: 'blur' }],
+        username: [
+          { required: true, message: '账号不能为空', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '密码不能为空', trigger: 'blur' }
+        ],
         name: [{ required: true, message: '姓名不能为空', trigger: 'blur' }],
         email: [
-          { required: true, message: '邮箱地址错误', trigger: 'blur', type: 'email' }
+          {
+            required: true,
+            message: '邮箱地址错误',
+            trigger: 'blur',
+            type: 'email'
+          }
         ],
-        department: [{ required: true, message: '单位不能为空', trigger: 'blur' }]
+        department: [
+          { required: true, message: '单位不能为空', trigger: 'blur' }
+        ]
       },
       login_msg: ''
     }
@@ -146,6 +157,8 @@ export default {
         return
       }
       Cookies.set('user', result.data.name)
+      Cookies.set('username', result.data.username)
+      Cookies.set('user_id', result.data.data_id)
       let access_token = result.data.access_token
       Cookies.set('access_token', access_token)
       this.$router.push({
