@@ -37,10 +37,8 @@
             上周每日来访量统计
           </p>
           <div class="to-do-list-con" style="height:200px">
-            <figure>
-              <chart style="width:100%;height:100%;" :options="bar" :init-options="initOptions" ref="bar" theme="ovilia-green" auto-resize
+              <chart style="width:100%;height:100%;" :options="barData" :init-options="initOptions" ref="bar" theme="ovilia-green" auto-resize
               />
-            </figure>
           </div>
         </Card>
         </Col>
@@ -95,172 +93,200 @@
   </div>
 </template>
 <script>
-  import Cookies from 'js-cookie'
-  import ECharts from 'vue-echarts/components/ECharts'
-  import 'echarts/lib/chart/bar'
+import Cookies from "js-cookie";
+import ECharts from "vue-echarts/components/ECharts";
+import "echarts/lib/chart/bar";
 
-  export default {
-    name: 'home',
-    components: {
-      chart: ECharts
-    },
-    data() {
-      return {
-        lastLogin: {
-          username: '',
-          name: '',
-          time: '未知',
-          city: '未知'
-        },
-        count: [{
-            icon: 'android-person-add',
-            color: '#2d8cf0',
-            count: 0,
-            text: '今日访问总量'
-          },
-          {
-            icon: 'ios-eye',
-            color: '#64d572',
-            count: 0,
-            text: '今日访问用户'
-          },
-          {
-            icon: 'upload',
-            color: '#ffd572',
-            count: 0,
-            text: '今日管理员登录'
-          },
-          {
-            icon: 'shuffle',
-            color: '#f25e43',
-            count: 0,
-            text: '今日数据新增和更新'
-          }
-        ],
-        initOptions: {
-          renderer: 'canvas'
-        },
-      }
-    },
-    computed: {
-      bar() {
-        let items = ['衬衫', '羊毛衫', '雪纺衫', '裤子', '高跟鞋', '袜子']
-        return {
-          title: {
-            text: '异步数据加载示例'
-          },
-          tooltip: {},
-          legend: {
-            data: ['销量']
-          },
-          xAxis: {
-            data: items
-          },
-          yAxis: {
-            axisLabel: {
-              show: true
-            }
-          },
-          series: [{
-            type: 'bar',
-            name: '销量',
-            data: items.map(() => Math.floor(Math.random() * 40 + 10))
-          }]
-        }
-      }
-    },
-    methods: {
-      //上次登录信息
-      async getLastLogin() {
-        let user_id = Cookies.get('user_id')
-        this.lastLogin.username = Cookies.get('username')
-        this.lastLogin.name = Cookies.get('user')
-        if (user_id) {
-          let query = {
-            keys: {
-              user_id: parseInt(user_id)
-            },
-            offset: 0,
-            limit: 2,
-            order: 0,
-            order_by: 'data_id'
-          }
-          let res_last_login = await this.apis.log_view.list(query)
-          if (res_last_login.status === 200 && res_last_login.data.code === 1) {
-            let data = res_last_login.data.data.rows
-            if (data.length > 0) {
-              let index = data.length
-              this.lastLogin.time = data[index - 1].created_at
-              this.lastLogin.city = data[index - 1].city ?
-                data[index - 1].city :
-                this.lastLogin.city
-            }
-          }
-        }
+export default {
+  name: "home",
+  components: {
+    chart: ECharts
+  },
+  data() {
+    return {
+      lastLogin: {
+        username: "",
+        name: "",
+        time: "未知",
+        city: "未知"
       },
-      //用户浏览统计
-      async userViewCount(type, from_time = 0, to_time = 1) {
+      count: [
+        {
+          icon: "android-person-add",
+          color: "#2d8cf0",
+          count: 0,
+          text: "今日访问总量"
+        },
+        {
+          icon: "ios-eye",
+          color: "#64d572",
+          count: 0,
+          text: "今日访问用户"
+        },
+        {
+          icon: "upload",
+          color: "#ffd572",
+          count: 0,
+          text: "今日管理员登录"
+        },
+        {
+          icon: "shuffle",
+          color: "#f25e43",
+          count: 0,
+          text: "今日数据新增和更新"
+        }
+      ],
+      initOptions: {
+        renderer: "canvas"
+      },
+      barUrlCount: {
+        items: [],
+        values: []
+      } //按模块统计，柱状图
+    };
+  },
+  computed: {
+    barData() {
+      return {
+        tooltip: {},
+        legend: {
+          data: ["浏览量"]
+        },
+        yAxis: {
+          data: this.barUrlCount.items
+        },
+        xAxis: {
+          axisLabel: {
+            show: true
+          }
+        },
+        series: [
+          {
+            type: "bar",
+            name: "浏览量",
+            data: this.barUrlCount.values
+          }
+        ]
+      };
+    }
+  },
+  methods: {
+    //上次登录信息
+    async getLastLogin() {
+      let user_id = Cookies.get("user_id");
+      this.lastLogin.username = Cookies.get("username");
+      this.lastLogin.name = Cookies.get("user");
+      if (user_id) {
         let query = {
-          type,
-          from_time,
-          to_time
+          keys: {
+            user_id: parseInt(user_id)
+          },
+          offset: 0,
+          limit: 2,
+          order: 0,
+          order_by: "data_id"
+        };
+        let res_last_login = await this.apis.log_view.list(query);
+        if (res_last_login.status === 200 && res_last_login.data.code === 1) {
+          let data = res_last_login.data.data.rows;
+          if (data.length > 0) {
+            let index = data.length;
+            this.lastLogin.time = data[index - 1].created_at;
+            this.lastLogin.city = data[index - 1].city
+              ? data[index - 1].city
+              : this.lastLogin.city;
+          }
         }
-        let count = 0
-        let res_last_count = await this.apis.log_view.count(query)
-        if (res_last_count.status === 200 && res_last_count.data.code === 1) {
-          count = res_last_count.data.data
-        }
-        this.count[type].count = count
       }
     },
-    async mounted() {
-      //用户信息
-      this.getLastLogin()
-      //顶部统计
-      this.userViewCount(0)
-      this.userViewCount(1)
-      this.userViewCount(2)
-      this.userViewCount(3)
+    //用户浏览统计
+    async userViewCount(type, from_time = 0, to_time = 1) {
+      let query = {
+        type,
+        from_time,
+        to_time
+      };
+      let count = 0;
+      let res_last_count = await this.apis.log_view.count(query);
+      if (res_last_count.status === 200 && res_last_count.data.code === 1) {
+        count = res_last_count.data.data;
+      }
+      this.count[type].count = count;
+    },
+    //按模块浏览统计
+    async urlViewCount(type, from_time = -7, to_time = 0) {
+      let query = {
+        type,
+        from_time,
+        to_time
+      };
+      let data = [];
+      let res_last_count = await this.apis.log_view.url(query);
+      if (res_last_count.status === 200 && res_last_count.data.code === 1) {
+        data = res_last_count.data.data;
+        if (type === 2) {
+        } else {
+          let items = [],
+            values = [];
+          for (let dd of data) {
+            items.push(dd.date);
+            values.push(dd.value);
+          }
+          this.barUrlCount.items = items;
+          this.barUrlCount.values = values;
+        }
+      }
     }
+  },
+  async mounted() {
+    //用户信息
+    this.getLastLogin();
+    //顶部统计
+    this.userViewCount(0);
+    this.userViewCount(1);
+    this.userViewCount(2);
+    this.userViewCount(3);
+    this.urlViewCount(1);
   }
+};
 </script>
 <style lang="less">
-  .line-gray {
-    height: 0;
-    border-bottom: 2px solid #dcdcdc;
-  }
+.line-gray {
+  height: 0;
+  border-bottom: 2px solid #dcdcdc;
+}
 
-  .notwrap {
-    word-break: keep-all;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+.notwrap {
+  word-break: keep-all;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-  .card-user-infor-name {
-    font-size: 2em;
-    color: #2d8cf0;
-  }
+.card-user-infor-name {
+  font-size: 2em;
+  color: #2d8cf0;
+}
 
-  .made-child-con-middle {
-    height: 100%;
-  }
+.made-child-con-middle {
+  height: 100%;
+}
 
-  .infor-card-icon-con {
-    height: 100%;
-  }
+.infor-card-icon-con {
+  height: 100%;
+}
 
-  .height-100 {
-    height: 100%;
-  }
+.height-100 {
+  height: 100%;
+}
 
-  .infor-card-con {
-    height: 100px;
-  }
+.infor-card-con {
+  height: 100px;
+}
 
-  .infor-intro-text {
-    font-size: 12px;
-    font-weight: 500;
-    color: #c8c8c8;
-  }
+.infor-intro-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #c8c8c8;
+}
 </style>
