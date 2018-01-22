@@ -58,5 +58,23 @@ module.exports = {
       headers: { 'x-access-token': access_token },
       params: query
     })
+  },
+  map: async function(query) {
+    let access_token = Cookies.get('access_token')
+    return axios({
+      url: '/log_view/map',
+      method: 'get',
+      headers: { 'x-access-token': access_token },
+      params: query
+    })
+  },
+  url: async function(query) {
+    let access_token = Cookies.get('access_token')
+    return axios({
+      url: '/log_view/url',
+      method: 'get',
+      headers: { 'x-access-token': access_token },
+      params: query
+    })
   }
 }

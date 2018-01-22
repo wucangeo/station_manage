@@ -51,7 +51,8 @@ module.exports = {
       },
       {
         test: /\.js[x]?$/,
-        include: [resolve('src')],
+        // include: [resolve('src')],
+        include: [resolve('src'), resolve('node_modules/vue-echarts')],
         exclude: /node_modules/,
         loader: 'happypack/loader?id=happybabel'
       },

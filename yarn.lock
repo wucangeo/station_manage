@@ -1946,6 +1946,12 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
 
+echarts@^4.0.1:
+  version "4.0.2"
+  resolved "http://registry.npm.taobao.org/echarts/download/echarts-4.0.2.tgz#c405e9e479af982383c8ae2b5946e52d058c6220"
+  dependencies:
+    zrender "4.0.1"
+
 editorconfig@^0.13.2:
   version "0.13.3"
   resolved "http://registry.npm.taobao.org/editorconfig/download/editorconfig-0.13.3.tgz#e5219e587951d60958fd94ea9a9a008cdeff1b34"
@@ -4913,6 +4919,10 @@ requires-port@1.0.x, requires-port@1.x.x, requires-port@~1.0.0:
   version "1.0.0"
   resolved "http://registry.npm.taobao.org/requires-port/download/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
 
+resize-detector@0.0.5:
+  version "0.0.5"
+  resolved "http://registry.npm.taobao.org/resize-detector/download/resize-detector-0.0.5.tgz#3ccd9f57e9196166fc22a2854d4982be45fbf63b"
+
 resolve-cwd@^2.0.0:
   version "2.0.0"
   resolved "http://registry.npm.taobao.org/resolve-cwd/download/resolve-cwd-2.0.0.tgz#00a9f7387556e27038eae232caa372a6a59b665a"
@@ -5690,6 +5700,14 @@ vm-browserify@0.0.4:
   dependencies:
     indexof "0.0.1"
 
+vue-echarts@^3.0.1:
+  version "3.0.1"
+  resolved "http://registry.npm.taobao.org/vue-echarts/download/vue-echarts-3.0.1.tgz#874171cc44ceba3ef62e3df0df2192925765d055"
+  dependencies:
+    echarts "^4.0.1"
+    lodash "^4.17.4"
+    resize-detector "0.0.5"
+
 vue-hot-reload-api@^1.3.3:
   version "1.3.3"
   resolved "http://registry.npm.taobao.org/vue-hot-reload-api/download/vue-hot-reload-api-1.3.3.tgz#54d22d83786a878493f639cc76bca7992a23be46"
@@ -5978,3 +5996,7 @@ yargs@~3.5.4:
     decamelize "^1.0.0"
     window-size "0.1.0"
     wordwrap "0.0.2"
+
+zrender@4.0.1:
+  version "4.0.1"
+  resolved "http://registry.npm.taobao.org/zrender/download/zrender-4.0.1.tgz#961e77abc5042eaa624b5230f8d673bf648298e9"
