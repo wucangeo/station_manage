@@ -4,7 +4,7 @@ import semver from 'semver'
 import packjson from '../../package.json'
 
 let util = {}
-util.title = function (title) {
+util.title = function(title) {
   title = title || '黄土高原水土保持试验站后台管理系统'
   window.document.title = title
 }
@@ -19,7 +19,7 @@ util.ajax = axios.create({
   timeout: 30000
 })
 
-util.inOf = function (arr, targetArr) {
+util.inOf = function(arr, targetArr) {
   let res = true
   arr.map(item => {
     if (targetArr.indexOf(item) < 0) {
@@ -29,7 +29,7 @@ util.inOf = function (arr, targetArr) {
   return res
 }
 
-util.oneOf = function (ele, targetArr) {
+util.oneOf = function(ele, targetArr) {
   if (targetArr.indexOf(ele) >= 0) {
     return true
   } else {
@@ -37,7 +37,7 @@ util.oneOf = function (ele, targetArr) {
   }
 }
 
-util.showThisRoute = function (itAccess, currentAccess) {
+util.showThisRoute = function(itAccess, currentAccess) {
   if (typeof itAccess === 'object' && itAccess.isArray()) {
     return util.oneOf(currentAccess, itAccess)
   } else {
@@ -45,7 +45,7 @@ util.showThisRoute = function (itAccess, currentAccess) {
   }
 }
 
-util.getRouterObjByName = function (routers, name) {
+util.getRouterObjByName = function(routers, name) {
   let routerObj = {}
   routers.forEach(item => {
     if (item.name === 'otherRouter') {
@@ -71,11 +71,11 @@ util.getRouterObjByName = function (routers, name) {
   return routerObj
 }
 
-util.handleTitle = function (vm, item) {
+util.handleTitle = function(vm, item) {
   return item.title
 }
 
-util.filterRouterRecursion = function (item, name, pathArr) {
+util.filterRouterRecursion = function(item, name, pathArr) {
   pathArr = pathArr || []
   if (item.name === name) {
     pathArr.push(item)
@@ -93,7 +93,7 @@ util.filterRouterRecursion = function (item, name, pathArr) {
   }
 }
 
-util.setCurrentPath = function (vm, name) {
+util.setCurrentPath = function(vm, name) {
   let title = ''
   let isOtherRouter = false
   vm.$store.state.app.routers.forEach(item => {
@@ -175,13 +175,11 @@ util.setCurrentPath = function (vm, name) {
           name: childObj.name
         })
       }
-      currentPathArr.unshift(
-        {
-          title: '首页',
-          path: '/home',
-          name: 'home_index'
-        }
-      )
+      currentPathArr.unshift({
+        title: '首页',
+        path: '/home',
+        name: 'home_index'
+      })
     }
   }
   vm.$store.commit('setCurrentPath', currentPathArr)
@@ -189,7 +187,7 @@ util.setCurrentPath = function (vm, name) {
   return currentPathArr
 }
 
-util.openNewPage = function (vm, name, argu, query) {
+util.openNewPage = function(vm, name, argu, query) {
   let pageOpenedList = vm.$store.state.app.pageOpenedList
   let openedPageLen = pageOpenedList.length
   let i = 0
@@ -230,7 +228,7 @@ util.openNewPage = function (vm, name, argu, query) {
   vm.$store.commit('setCurrentPageName', name)
 }
 
-util.toDefaultPage = function (routers, name, route, next) {
+util.toDefaultPage = function(routers, name, route, next) {
   let len = routers.length
   let i = 0
   let notHandle = true
@@ -250,7 +248,7 @@ util.toDefaultPage = function (routers, name, route, next) {
   }
 }
 
-util.fullscreenEvent = function (vm) {
+util.fullscreenEvent = function(vm) {
   // 权限菜单过滤相关
   vm.$store.commit('updateMenulist')
 }
