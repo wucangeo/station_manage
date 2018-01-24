@@ -1,7 +1,7 @@
 <template>
   <div>
     <Row type="flex" justify="start" class="image-list-row">
-      <Col class="image-item" v-for="item in image_list">
+      <Col class="image-item" v-for="item in image_list" :key="item.data_id">
       <div @mouseover="mouseHover(item)" @mouseleave="mouseLeave(item)">
         <Card :padding="10">
           <p slot="title" v-if="cur_edit!=item.data_id">{{item.name}}</p>
@@ -125,8 +125,8 @@ export default {
     },
     uploadError(err) {
       this.$Message.error({
-        content:err,
-        duration:1.5
+        content: err,
+        duration: 1.5
       })
     },
     setEdit(item) {

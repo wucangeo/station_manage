@@ -1,12 +1,14 @@
 {
-  "name": "iview-admin-template",
+  "name": "soil_staion_manage",
   "version": "1.0.0",
-  "description": "a management template bases on iview",
+  "description": "a management of soil staion",
   "main": "index.js",
   "scripts": {
     "init": "webpack --progress --config build/webpack.dev.config.js",
-    "dev": "webpack-dev-server --content-base ./ --open --inline --hot --compress --config build/webpack.dev.config.js",
-    "build": "webpack --progress --hide-modules --config build/webpack.prod.config.js",
+    "dev":
+      "webpack-dev-server --content-base ./ --open --inline --hot --compress --config build/webpack.dev.config.js",
+    "build":
+      "webpack --progress --hide-modules --config build/webpack.prod.config.js",
     "lint": "eslint --fix --ext .js,.vue src",
     "test": "npm run lint"
   },
