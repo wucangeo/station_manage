@@ -76,14 +76,14 @@
             <Icon type="map"></Icon>
             近七天服务调用地理分布
           </p>
-          <div>
+          <div  style="height:266px">
             <Col span="8">
-            <Table stripe :columns="tableColumn" :data="tableData" height="265"></Table>
+            <Table stripe :columns="tableColumn" :data="tableData" height="260"></Table>
             </Col>
             <Col span="16">
             <!-- <Row type="flex" justify="center" align="middle"> -->
             <!-- <home-map :city-data="cityData"></home-map> -->
-            <chart style="width:100%;height:265px;" :options="mapOption" :init-options="initOptions" ref="map" auto-resize />
+            <chart style="width:100%;height:260px;" :options="mapOption" :init-options="initOptions" ref="map" auto-resize />
             <!-- </Row> -->
             </Col>
           </div>
