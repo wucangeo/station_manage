@@ -112,23 +112,17 @@ export const otherRouter = {
   path: '/',
   name: 'otherRouter',
   component: MainView,
-  children: [
-    // {
-    //   path: 'home',
-    //   title: '首页',
-    //   name: 'home_index',
-    //   component: homeView
-    // }
-  ]
+  redirect: { name: 'home' }
 }
 
 // 作为Main组件的子页面展示并且在左侧菜单显示的路由写在appRouter里
 export const appRouter = [
   {
     path: '/home',
-    title: "首页",
+    title: '首页',
     name: 'home',
     icon: 'ios-home',
+    redirect: { name: 'home_index' },
     component: MainView,
     children: [
       {
@@ -264,7 +258,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsNews',
         title: '综合新闻',
@@ -296,7 +291,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsResearch',
         title: '科研动态',
@@ -328,7 +324,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsService',
         title: '服务动态',
@@ -360,7 +357,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsExchange',
         title: '合作交流',
@@ -392,7 +390,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsPopularization',
         title: '科普活动',
@@ -424,7 +423,8 @@ export const appRouter = [
             component: newsAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'news',
         name: 'newsReport',
         title: '专题报道',
@@ -503,9 +503,10 @@ export const appRouter = [
             name: 'paperEdit',
             title: '编辑论文',
             component: paperEditView
-          },
+          }
         ]
-      }, {
+      },
+      {
         path: 'monography',
         name: 'monographyIndex',
         title: '专著',
@@ -541,9 +542,10 @@ export const appRouter = [
             name: 'monographyEdit',
             title: '编辑专著',
             component: monographyEditView
-          },
+          }
         ]
-      }, {
+      },
+      {
         path: 'patent',
         name: 'patentIndex',
         title: '专利',
@@ -579,9 +581,10 @@ export const appRouter = [
             name: 'patentEdit',
             title: '编辑专利',
             component: patentEditView
-          },
+          }
         ]
-      }, {
+      },
+      {
         path: 'awards',
         name: 'awardsIndex',
         title: '奖项',
@@ -617,7 +620,7 @@ export const appRouter = [
             name: 'awardsEdit',
             title: '编辑奖项',
             component: awardsEditView
-          },
+          }
         ]
       }
     ]
@@ -668,7 +671,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'jjw',
         name: 'jjwProject',
         title: '基金委项目',
@@ -706,7 +710,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'zky',
         name: 'zkyProject',
         title: '中科院项目',
@@ -744,7 +749,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'qtbw',
         name: 'qtbwProject',
         title: '其他部委项目',
@@ -782,7 +788,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'df',
         name: 'dfProject',
         title: '地方项目',
@@ -820,7 +827,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'qt',
         name: 'qtProject',
         title: '其他项目',
@@ -858,7 +866,8 @@ export const appRouter = [
             component: projectAddView
           }
         ]
-      }]
+      }
+    ]
   },
   {
     path: '/thematic',
@@ -900,7 +909,8 @@ export const appRouter = [
             component: thematicAddView
           }
         ]
-      }, {
+      },
+      {
         path: 'science',
         name: 'thematicScience',
         title: '服务科学研究',
@@ -934,7 +944,8 @@ export const appRouter = [
         ]
       }
     ]
-  }, {
+  },
+  {
     path: '/scientific',
     icon: 'ios-paper',
     title: '科学普及',
@@ -998,7 +1009,8 @@ export const appRouter = [
         ]
       }
     ]
-  }, {
+  },
+  {
     path: '/scenery',
     icon: 'ios-paper',
     title: '台站风光',
