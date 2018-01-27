@@ -1,6 +1,6 @@
 <style lang="less">
-@import './main.less';
-@import '../styles/common.less';
+@import "./main.less";
+@import "../styles/common.less";
 </style>
 <template>
   <div class="main" :class="{'main-hide-text': shrink}">
@@ -50,10 +50,10 @@
   </div>
 </template>
 <script>
-import Cookies from 'js-cookie'
-import util from '@/libs/util.js'
-import shrinkableMenu from './main-components/shrinkable-menu/shrinkable-menu.vue'
-import breadcrumbNav from './main-components/breadcrumb-nav.vue'
+import Cookies from "js-cookie";
+import util from "@/libs/util.js";
+import shrinkableMenu from "./main-components/shrinkable-menu/shrinkable-menu.vue";
+import breadcrumbNav from "./main-components/breadcrumb-nav.vue";
 
 export default {
   components: {
@@ -63,53 +63,52 @@ export default {
   data() {
     return {
       shrink: false,
-      userName: ''
-    }
+      userName: ""
+    };
   },
   computed: {
     menuList() {
-      return this.$store.state.app.menuList
+      return this.$store.state.app.menuList;
     },
     currentPath() {
-      return this.$store.state.app.currentPath // 当前面包屑数组
+      return this.$store.state.app.currentPath; // 当前面包屑数组
     }
   },
   methods: {
     init() {
-      this.verify()
-
-      let pathArr = util.setCurrentPath(this, this.$route.name)
-      this.$store.commit('updateMenulist')
+      this.verify();
+      let pathArr = util.setCurrentPath(this, this.$route.name);
+      this.$store.commit("updateMenulist");
       // if (pathArr.length >= 2) {
       //   this.$store.commit('addOpenSubmenu', pathArr[1].name)
       // }
-      this.userName = Cookies.get('user')
+      this.userName = Cookies.get("user");
     },
     toggleClick() {
-      this.shrink = !this.shrink
+      this.shrink = !this.shrink;
     },
     handleClickUserDropdown(name) {
       this.$router.push({
-        name: 'login'
-      })
+        name: "login"
+      });
     },
     verify() {
       this.apis.user
         .verify()
         .then(res => {
           if (res.status === 401) {
-            this.$router.push({ name: 'login' })
+            this.$router.push({ name: "login" });
           }
         })
         .catch(err => {
-          this.$router.push({ name: 'login' })
-        })
+          this.$router.push({ name: "login" });
+        });
     }
   },
   watch: {
     $route(to) {
       // this.$store.commit('setCurrentPageName', to.name)
-      let pathArr = util.setCurrentPath(this, to.name)
+      let pathArr = util.setCurrentPath(this, to.name);
       // if (pathArr.length > 2) {
       //   this.$store.commit('addOpenSubmenu', pathArr[1].name)
       // }
@@ -118,7 +117,7 @@ export default {
     }
   },
   mounted() {
-    this.init()
+    this.init();
   }
-}
+};
 </script>
