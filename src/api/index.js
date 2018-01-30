@@ -10,6 +10,7 @@ import * as achv_awards from './achv_awards'
 import * as project from './project'
 import * as project_type from './project_type'
 import * as log_view from './log_view'
+import * as res_land from './res_land'
 
 const apis = {
   image,
@@ -22,6 +23,7 @@ const apis = {
   achv_patent,
   project_type,
   project,
+  res_land,
   log_view,
   achv_paper
 }

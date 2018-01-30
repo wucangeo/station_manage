@@ -66,6 +66,14 @@ import projectAddView from '@/views/project/project-add.vue'
 import projectEditView from '@/views/project/project-edit.vue'
 import projectTrashView from '@/views/project/project-trash.vue'
 
+//资源------------
+//样地资源
+import landResourceListView from '@/views/resource/land/list.vue'
+import landResourceInfoView from '@/views/resource/land/info.vue'
+import landResourceAddView from '@/views/resource/land/add.vue'
+import landResourceEditView from '@/views/resource/land/edit.vue'
+import landResourceTrashView from '@/views/resource/land/trash.vue'
+
 import error_404 from '@/views/error-page/404.vue'
 import error_403 from '@/views/error-page/403.vue'
 import error_500 from '@/views/error-page/500.vue'
@@ -454,6 +462,55 @@ export const appRouter = [
             name: 'newsReportAdd',
             title: '添加',
             component: newsAddView
+          }
+        ]
+      }
+    ]
+  },
+  {
+    path: '/resource/physical',
+    icon: 'ios-paper',
+    title: '实物资源',
+    name: 'physicalResource',
+    redirect: { name: 'landResource' },
+    component: MainView,
+    children: [
+      {
+        path: 'land',
+        name: 'landResource',
+        title: '样地资源',
+        redirect: { name: 'landResourceList' },
+        component: MainRouterIndexView,
+        children: [
+          {
+            path: 'list',
+            name: 'landResourceList',
+            title: '列表',
+            component: landResourceListView
+          },
+          {
+            path: 'trash',
+            name: 'landResourceTrash',
+            title: '回收站',
+            component: landResourceTrashView
+          },
+          {
+            path: 'info/:data_id',
+            name: 'landResourceInfo',
+            title: '查看',
+            component: landResourceInfoView
+          },
+          {
+            path: 'edit/:data_id',
+            name: 'landResourceEdit',
+            title: '编辑',
+            component: landResourceEditView
+          },
+          {
+            path: 'add',
+            name: 'landResourceAdd',
+            title: '添加',
+            component: landResourceAddView
           }
         ]
       }
