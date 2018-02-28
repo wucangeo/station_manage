@@ -104,7 +104,7 @@ filter.getLast7DateDic = function(last = 7) {
     dic: {},
     date: []
   };
-  for (let index = 1; index <= last; index++) {
+  for (let index = 0; index < last; index++) {
     let date = new Date(new Date().setDate(now.getDate() - index));
     let dateStr =
       (date.getMonth() + 1).toString().padStart(2, "0") +
@@ -113,7 +113,7 @@ filter.getLast7DateDic = function(last = 7) {
         .getDate()
         .toString()
         .padStart(2, "0");
-    result.dic[dateStr] = last - index;
+    result.dic[dateStr] = last - index - 1;
     result.date.unshift(dateStr);
   }
   return result;

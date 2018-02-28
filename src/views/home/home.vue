@@ -76,7 +76,7 @@
             <Icon type="map"></Icon>
             近七天服务调用地理分布
           </p>
-          <div  style="height:266px">
+          <div style="height:266px">
             <Col span="8">
             <Table stripe :columns="tableColumn" :data="tableData" height="260"></Table>
             </Col>
@@ -427,7 +427,7 @@ export default {
       }
     },
     //用户浏览统计
-    async userViewCount(type, from_time = 0, to_time = 1) {
+    async userViewCount(type, from_time = -1, to_time = 0) {
       let query = {
         type,
         from_time,
@@ -501,7 +501,7 @@ export default {
         }
       }
     },
-    //按模块浏览统计
+    //按地图浏览统计
     async mapViewCount(type, from_time = -7, to_time = 0) {
       let query = {
         type,
@@ -527,6 +527,7 @@ export default {
           }
         }
         this.mapData = res;
+        console.log("mapData:", this.mapData);
       }
     }
   },
